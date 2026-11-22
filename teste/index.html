@@ -93,7 +93,7 @@ input::placeholder{color:color-mix(in srgb,var(--sage) 55%,transparent)}
 .shelfHead h3{font-size:clamp(20px,3.5vw,24px);white-space:nowrap}
 .shelfHead::after{content:"";flex:1;height:1px;background:var(--sage);opacity:.3}
 .shelf{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:28px 22px}
-.book{display:flex;flex-direction:column;gap:10px;background:none;border:0;padding:0;cursor:pointer;text-align:left;color:inherit;font:inherit;text-transform:none;letter-spacing:0}
+.book{display:flex;flex-direction:column;gap:10px;background:none;border:0;padding:0;cursor:default;text-align:left;color:inherit;font:inherit;text-transform:none;letter-spacing:0}
 .book .cv{aspect-ratio:2/3;width:100%;max-width:100%;overflow:hidden;background:var(--white);display:flex;align-items:center;justify-content:center;padding:12px;box-sizing:border-box;transition:transform .2s ease,box-shadow .2s ease;box-shadow:0 1px 2px rgba(30,77,51,.12)}
 .book.has .cv{padding:0}
 .book .cv img{width:100%;height:100%;object-fit:cover;display:block}
@@ -104,6 +104,9 @@ input::placeholder{color:color-mix(in srgb,var(--sage) 55%,transparent)}
 .book .a{font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:var(--sage);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .book .w{font-size:11px;letter-spacing:.08em;color:var(--red)}
 .empty{grid-column:1/-1;margin:0;color:var(--sage);font-style:italic}
+.item{display:flex;flex-direction:column;gap:6px;min-width:0}
+.shop{display:flex;gap:10px;flex-wrap:wrap;font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:.12em}
+.shop a{color:var(--red);text-underline-offset:3px}
 .detail{border-top:1px solid color-mix(in srgb,var(--sage) 30%,transparent);padding-top:22px;display:grid;grid-template-columns:auto 1fr;gap:24px;align-items:start}
 .detail .cov{width:120px;max-width:100%;height:auto;display:block;box-shadow:0 1px 2px rgba(30,77,51,.12)}
 .detail .info{display:flex;flex-direction:column;gap:6px;min-width:0}
@@ -199,10 +202,14 @@ footer{text-align:center;font-size:32px}
     <p class="label center">E vem mais gente por aí</p>
   </section>
 
-  <section aria-labelledby="t-shelf" class="center">
+  <section aria-labelledby="t-shelf">
     <h2 class="brush" id="t-shelf">Nossa estante</h2>
-    <p style="margin:0">Livros que a gente leu e amou, e os que cada uma quer ganhar. Dá uma espiada antes de escolher o seu presente.</p>
-    <p style="margin:0"><a class="btn" href="https://claude.ai/artifact/G8hajbqXP9REtYtsQu9ZpQ" target="_blank" rel="noopener">Ver a estante</a></p>
+    <p class="center" style="margin:0">Livros que a gente leu e amou, e os que cada uma quer ganhar. Dá uma espiada antes de escolher o seu presente.</p>
+    <div class="shelfHead"><h3 class="brush">Já li e amei</h3></div>
+    <div class="shelf" id="shelf-loved"><p class="empty">Carregando…</p></div>
+    <div class="shelfHead"><h3 class="brush">Quero ganhar</h3></div>
+    <div class="shelf" id="shelf-want"><p class="empty">Carregando…</p></div>
+    <p class="center" style="margin:12px 0 0">Quer colocar um livro? Manda o nome e a autora no grupo, ou <a href="https://claude.ai/artifact/G8hajbqXP9REtYtsQu9ZpQ" target="_blank" rel="noopener" style="color:var(--red)">coloque direto na estante completa</a> (pede login no Claude).</p>
   </section>
 
   <footer class="brush">até o dia 28!</footer>
@@ -264,6 +271,28 @@ function renderNames(list){
 fetch("draw.json").then(r => r.json()).then(d => { draw = d; if (!namesFromDb) renderNames(d.participants); }).catch(() => {});
 let namesFromDb = false;
 
+
+/* Read-only bookshelf, copied here every hour from the full site */
+const okLink = u => typeof u === "string" && /^https:\/\/(www\.)?(amazon\.com\.br|lista\.mercadolivre\.com\.br|mercadolivre\.com\.br)\//.test(u);
+fetch("../livros.json").then(r => r.json()).then(list => {
+  ["loved","want"].forEach(kind => {
+    const box = $("shelf-" + kind); box.textContent = "";
+    const items = list.filter(b => (b.kind === "want" ? "want" : "loved") === kind);
+    if (!items.length) { box.append(el("p", "empty", kind === "want" ? "Ninguém pediu um livro ainda." : "Ainda vazia.")); return; }
+    items.forEach(b => {
+      const item = el("div", "item"); const card = el("div", "book" + (b.cover ? " has" : ""));
+      const cv = el("span", "cv");
+      if (typeof b.cover === "string" && /^capas\/[\w.-]+$/.test(b.cover)) { const img = el("img"); img.src = "../" + b.cover; img.alt = "Capa de " + str(b.title, 80); img.loading = "lazy"; cv.append(img); }
+      else cv.append(el("span", "ph", str(b.title, 120)));
+      const cap = el("span", "cap"); cap.append(el("span", "t", str(b.title, 120)), el("span", "a", str(b.author, 80)), el("span", "w", "de " + (str(b.name, 40) || "alguém")));
+      card.append(cv, cap); item.append(card);
+      const shop = el("div", "shop");
+      [["amazon","Amazon"],["ml","Mercado Livre"]].forEach(([k,l]) => { if (okLink(b[k])) { const a = el("a", null, l); a.href = b[k]; a.target = "_blank"; a.rel = "noopener"; shop.append(a); } });
+      if (shop.childNodes.length) item.append(shop);
+      box.append(item);
+    });
+  });
+}).catch(() => { ["loved","want"].forEach(k => { $("shelf-" + k).textContent = ""; }); });
 </script>
 </body>
 </html>
