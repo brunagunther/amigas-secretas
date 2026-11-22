@@ -143,6 +143,17 @@ footer{text-align:center;font-size:32px}
   .detail{grid-template-columns:1fr}
 }
 @media (prefers-reduced-motion:reduce){.book,.book .cv,.btn::after{transition:none}}
+
+dialog#addDlg{border:0;padding:0;background:var(--pink);color:var(--green);max-width:min(420px,calc(100vw - 32px));width:100%;box-shadow:0 20px 60px rgba(30,77,51,.25)}
+dialog#addDlg::backdrop{background:rgba(30,77,51,.35)}
+#addForm{display:flex;flex-direction:column;gap:16px;padding:28px 24px}
+#addForm h3{font-size:24px;text-align:center}
+#addForm .f{display:flex;flex-direction:column;gap:2px;font-size:11px;text-transform:uppercase;letter-spacing:.14em;color:var(--sage)}
+#addForm .f input{font-size:16px;text-transform:none;letter-spacing:0}
+.kind{display:flex;gap:20px;flex-wrap:wrap;justify-content:center;font-size:12px;text-transform:uppercase;letter-spacing:.12em}
+.kind label{display:flex;gap:6px;align-items:center;cursor:pointer}
+.kind input{accent-color:var(--red)}
+.dlgBtns{display:flex;justify-content:space-between;gap:16px}
 </style>
 </head>
 <body>
@@ -207,10 +218,26 @@ footer{text-align:center;font-size:32px}
     <p class="center" style="margin:0">Livros que a gente leu e amou, e os que cada uma quer ganhar. Dá uma espiada antes de escolher o seu presente.</p>
     <div class="shelfHead"><h3 class="brush">Já li e amei</h3></div>
     <div class="shelf" id="shelf-loved"><p class="empty">Carregando…</p></div>
+    <p class="center" style="margin:0"><button type="button" class="btn" data-add="loved">Adicionar um livro que amei</button></p>
     <div class="shelfHead"><h3 class="brush">Quero ganhar</h3></div>
     <div class="shelf" id="shelf-want"><p class="empty">Carregando…</p></div>
-    <p class="center" style="margin:12px 0 0">Quer colocar um livro? Manda o nome e a autora no grupo, ou <a href="https://claude.ai/artifact/G8hajbqXP9REtYtsQu9ZpQ" target="_blank" rel="noopener" style="color:var(--red)">coloque direto na estante completa</a> (pede login no Claude).</p>
+    <p class="center" style="margin:0"><button type="button" class="btn" data-add="want">Adicionar um livro que quero ganhar</button></p>
   </section>
+
+  <dialog id="addDlg" aria-labelledby="dlgTitle">
+    <form id="addForm" method="dialog">
+      <h3 class="brush" id="dlgTitle">Colocar na estante</h3>
+      <div class="kind" role="radiogroup" aria-label="Tipo">
+        <label><input type="radio" name="kind" id="kLoved" value="loved" checked> Já li e amei</label>
+        <label><input type="radio" name="kind" id="kWant" value="want"> Quero ganhar</label>
+      </div>
+      <label class="f" for="bTitle">Livro<input id="bTitle" maxlength="120" required autocomplete="off"></label>
+      <label class="f" for="bAuthor">Autora / autor<input id="bAuthor" maxlength="80" required autocomplete="off"></label>
+      <label class="f" for="bName">Seu nome<input id="bName" maxlength="40" required></label>
+      <p class="msg" id="addMsg" aria-live="polite"></p>
+      <div class="dlgBtns"><button type="button" class="btn" id="cancelAdd">Cancelar</button><button type="submit" class="btn" id="sendAdd">Colocar na estante</button></div>
+    </form>
+  </dialog>
 
   <footer class="brush">até o dia 28!</footer>
 </div>
@@ -272,27 +299,99 @@ fetch("draw.json").then(r => r.json()).then(d => { draw = d; if (!namesFromDb) r
 let namesFromDb = false;
 
 
-/* Read-only bookshelf, copied here every hour from the full site */
+/* Bookshelf: curated books (livros.json, with covers) + books the girls add through the pop-up (saved in Bruna's Google Sheet) */
+const FORM = "https://docs.google.com/forms/d/e/1FAIpQLSej9z1YRcOhWNryZcwpvEnDiV7NSilXvuVWj1trJw3VtXldKw/formResponse";
+const CSV = "https://docs.google.com/spreadsheets/d/1yOkpDJjHfc5bbu9nity1X4vmv0V6hFVfuVG8WMW621U/gviz/tq?tqx=out:csv&gid=753850197";
+const ENTRY = { title: "entry.661360488", author: "entry.1686580354", kind: "entry.1301013901", name: "entry.1530456873" };
 const okLink = u => typeof u === "string" && /^https:\/\/(www\.)?(amazon\.com\.br|lista\.mercadolivre\.com\.br|mercadolivre\.com\.br)\//.test(u);
-fetch("livros.json").then(r => r.json()).then(list => {
+const keyOf = b => (str(b.title, 120) + "|" + str(b.name, 40)).toLowerCase().replace(/\s+/g, " ").trim();
+const slug = t => t.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+const shopFor = b => ({ amazon: "https://www.amazon.com.br/s?k=" + encodeURIComponent(b.title + " " + b.author), ml: "https://lista.mercadolivre.com.br/" + slug(b.title + " " + b.author) });
+let curated = [], fromSheet = [], pending = [];
+try { pending = JSON.parse(localStorage.getItem("pendentes") || "[]"); } catch {}
+function parseCSV(t){ const rows = []; let row = [], f = "", q = false;
+  for (let i = 0; i < t.length; i++) { const c = t[i];
+    if (q) { if (c === '"' && t[i+1] === '"') { f += '"'; i++; } else if (c === '"') q = false; else f += c; }
+    else if (c === '"') q = true; else if (c === ",") { row.push(f); f = ""; } else if (c === "\n") { row.push(f); rows.push(row); row = []; f = ""; } else if (c !== "\r") f += c; }
+  if (f || row.length) { row.push(f); rows.push(row); } return rows; }
+const coverCache = {};
+async function findCover(b){
+  const k = keyOf(b); if (k in coverCache) return coverCache[k];
+  coverCache[k] = null;
+  try {
+    const r = await fetch("https://openlibrary.org/search.json?limit=1&fields=cover_i&title=" + encodeURIComponent(b.title) + "&author=" + encodeURIComponent(b.author));
+    const d = await r.json(); const id = d.docs && d.docs[0] && d.docs[0].cover_i;
+    if (Number.isInteger(id)) coverCache[k] = "https://covers.openlibrary.org/b/id/" + id + "-M.jpg";
+  } catch {}
+  return coverCache[k];
+}
+function allBooks(){
+  const seen = new Set(), out = [];
+  [...curated, ...fromSheet, ...pending].forEach(b => { const k = keyOf(b); if (!b.title || seen.has(k)) return; seen.add(k); out.push(b); });
+  return out;
+}
+function renderShelves(){
+  const list = allBooks();
   ["loved","want"].forEach(kind => {
     const box = $("shelf-" + kind); box.textContent = "";
     const items = list.filter(b => (b.kind === "want" ? "want" : "loved") === kind);
     if (!items.length) { box.append(el("p", "empty", kind === "want" ? "Ninguém pediu um livro ainda." : "Ainda vazia.")); return; }
     items.forEach(b => {
-      const item = el("div", "item"); const card = el("div", "book" + (b.cover ? " has" : ""));
-      const cv = el("span", "cv");
-      if (typeof b.cover === "string" && /^capas\/[\w.-]+$/.test(b.cover)) { const img = el("img"); img.src = "" + b.cover; img.alt = "Capa de " + str(b.title, 80); img.loading = "lazy"; cv.append(img); }
-      else cv.append(el("span", "ph", str(b.title, 120)));
+      const item = el("div", "item"); const card = el("div", "book"); const cv = el("span", "cv");
+      const local = typeof b.cover === "string" && /^capas\/[\w.-]+$/.test(b.cover);
+      const showImg = src => { card.classList.add("has"); cv.textContent = ""; const img = el("img"); img.src = src; img.alt = "Capa de " + str(b.title, 80); img.loading = "lazy"; cv.append(img); };
+      cv.append(el("span", "ph", str(b.title, 120)));
+      if (local) showImg("" + b.cover);
+      else findCover(b).then(u => { if (u) showImg(u); });
       const cap = el("span", "cap"); cap.append(el("span", "t", str(b.title, 120)), el("span", "a", str(b.author, 80)), el("span", "w", "de " + (str(b.name, 40) || "alguém")));
       card.append(cv, cap); item.append(card);
+      const links = okLink(b.amazon) ? b : shopFor(b);
       const shop = el("div", "shop");
-      [["amazon","Amazon"],["ml","Mercado Livre"]].forEach(([k,l]) => { if (okLink(b[k])) { const a = el("a", null, l); a.href = b[k]; a.target = "_blank"; a.rel = "noopener"; shop.append(a); } });
-      if (shop.childNodes.length) item.append(shop);
-      box.append(item);
+      [["amazon","Amazon"],["ml","Mercado Livre"]].forEach(([k,l]) => { if (okLink(links[k])) { const a = el("a", null, l); a.href = links[k]; a.target = "_blank"; a.rel = "noopener"; shop.append(a); } });
+      item.append(shop); box.append(item);
     });
   });
-}).catch(() => { ["loved","want"].forEach(k => { $("shelf-" + k).textContent = ""; }); });
+}
+fetch("livros.json").then(r => r.json()).then(l => { curated = l; renderShelves(); }).catch(() => renderShelves());
+function loadSheet(){
+  fetch(CSV, { cache: "no-store" }).then(r => r.ok ? r.text() : "").then(t => {
+    if (!t) return;
+    const rows = parseCSV(t).slice(1);
+    fromSheet = rows.map(r => ({ title: (r[1]||"").trim(), author: (r[2]||"").trim(), kind: /quero|want/i.test(r[3]||"") ? "want" : "loved", name: (r[4]||"").trim() })).filter(b => b.title);
+    const have = new Set(fromSheet.map(keyOf));
+    pending = pending.filter(b => !have.has(keyOf(b)));
+    try { localStorage.setItem("pendentes", JSON.stringify(pending)); } catch {}
+    renderShelves();
+  }).catch(() => {});
+}
+loadSheet(); setInterval(loadSheet, 60000);
+
+/* Pop-up to add a book */
+const dlg = $("addDlg");
+try { const n = localStorage.getItem("nome"); if (n) $("bName").value = n; } catch {}
+document.querySelectorAll("[data-add]").forEach(btn => btn.addEventListener("click", () => {
+  (btn.dataset.add === "want" ? $("kWant") : $("kLoved")).checked = true;
+  $("addMsg").textContent = ""; dlg.showModal(); $("bTitle").focus();
+}));
+$("cancelAdd").addEventListener("click", () => dlg.close());
+$("addForm").addEventListener("submit", async ev => {
+  ev.preventDefault();
+  const b = { title: $("bTitle").value.trim(), author: $("bAuthor").value.trim(), name: $("bName").value.trim(), kind: $("kWant").checked ? "want" : "loved" };
+  if (!b.title || !b.author || !b.name) { $("addMsg").textContent = "Preencha o livro, a autora e o seu nome."; return; }
+  $("sendAdd").disabled = true; $("addMsg").textContent = "Colocando…";
+  const body = new URLSearchParams();
+  body.append(ENTRY.title, b.title); body.append(ENTRY.author, b.author); body.append(ENTRY.kind, b.kind === "want" ? "Quero ganhar" : "Já li e amei"); body.append(ENTRY.name, b.name);
+  try {
+    await fetch(FORM, { method: "POST", mode: "no-cors", body });
+    pending.push(b);
+    try { localStorage.setItem("pendentes", JSON.stringify(pending)); localStorage.setItem("nome", b.name); } catch {}
+    renderShelves();
+    $("bTitle").value = ""; $("bAuthor").value = "";
+    dlg.close();
+    setTimeout(loadSheet, 8000);
+  } catch { $("addMsg").textContent = "Não deu para salvar agora. Confira a internet e tente de novo."; }
+  $("sendAdd").disabled = false;
+});
 </script>
 </body>
 </html>
