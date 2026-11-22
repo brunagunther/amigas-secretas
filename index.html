@@ -90,7 +90,7 @@ input::placeholder{color:color-mix(in srgb,var(--sage) 55%,transparent)}
 
 /* Reading list: covers on the page, caption below, no shelves or boxes */
 .shelfHead{display:flex;align-items:baseline;gap:16px;margin-top:18px}
-.shelfHead h3{font-size:clamp(20px,3.5vw,24px);white-space:nowrap}
+.shelfHead h3{font-size:clamp(18px,3.5vw,24px);min-width:0;text-wrap:balance}
 .shelfHead::after{content:"";flex:1;height:1px;background:var(--sage);opacity:.3}
 .shelf{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:28px 22px}
 .book{display:flex;flex-direction:column;gap:10px;background:none;border:0;padding:0;cursor:default;text-align:left;color:inherit;font:inherit;text-transform:none;letter-spacing:0}
@@ -193,7 +193,7 @@ dialog#addDlg::backdrop{background:rgba(30,77,51,.35)}
       <div id="resultBox" hidden>
         <p class="label" id="hiName"></p>
         <p class="brush result" id="drewName"></p>
-        <p>Guarde segredo até o dia 28. Olhe a estante: talvez ela já tenha dito o que quer ganhar.</p>
+        <p>Guarde segredo até o dia 28. Olhe a estante: talvez ela já tenha um livro na lista dela.</p>
       </div>
     </div>
   </section>
@@ -215,13 +215,13 @@ dialog#addDlg::backdrop{background:rgba(30,77,51,.35)}
 
   <section aria-labelledby="t-shelf">
     <h2 class="brush" id="t-shelf">Nossa estante</h2>
-    <p class="center" style="margin:0">Livros que a gente leu e amou, e os que cada uma quer ganhar. Dá uma espiada antes de escolher o seu presente.</p>
+    <p class="center" style="margin:0">Livros que a gente leu e amou, e os que estão na lista de cada uma. Dá uma espiada antes de escolher o seu presente.</p>
     <div class="shelfHead"><h3 class="brush">Já li e amei</h3></div>
     <div class="shelf" id="shelf-loved"><p class="empty">Carregando…</p></div>
     <p class="center" style="margin:0"><button type="button" class="btn" data-add="loved">Adicionar um livro que amei</button></p>
-    <div class="shelfHead"><h3 class="brush">Quero ganhar</h3></div>
+    <div class="shelfHead"><h3 class="brush">Ainda não li, mas está na minha lista</h3></div>
     <div class="shelf" id="shelf-want"><p class="empty">Carregando…</p></div>
-    <p class="center" style="margin:0"><button type="button" class="btn" data-add="want">Adicionar um livro que quero ganhar</button></p>
+    <p class="center" style="margin:0"><button type="button" class="btn" data-add="want">Adicionar um livro da minha lista</button></p>
   </section>
 
   <dialog id="addDlg" aria-labelledby="dlgTitle">
@@ -229,7 +229,7 @@ dialog#addDlg::backdrop{background:rgba(30,77,51,.35)}
       <h3 class="brush" id="dlgTitle">Colocar na estante</h3>
       <div class="kind" role="radiogroup" aria-label="Tipo">
         <label><input type="radio" name="kind" id="kLoved" value="loved" checked> Já li e amei</label>
-        <label><input type="radio" name="kind" id="kWant" value="want"> Quero ganhar</label>
+        <label><input type="radio" name="kind" id="kWant" value="want"> Está na minha lista</label>
       </div>
       <label class="f" for="bTitle">Livro<input id="bTitle" maxlength="120" required autocomplete="off"></label>
       <label class="f" for="bAuthor">Autora / autor<input id="bAuthor" maxlength="80" required autocomplete="off"></label>
@@ -335,7 +335,7 @@ function renderShelves(){
   ["loved","want"].forEach(kind => {
     const box = $("shelf-" + kind); box.textContent = "";
     const items = list.filter(b => (b.kind === "want" ? "want" : "loved") === kind);
-    if (!items.length) { box.append(el("p", "empty", kind === "want" ? "Ninguém pediu um livro ainda." : "Ainda vazia.")); return; }
+    if (!items.length) { box.append(el("p", "empty", kind === "want" ? "Nenhum livro na lista ainda." : "Ainda vazia.")); return; }
     items.forEach(b => {
       const item = el("div", "item"); const card = el("div", "book"); const cv = el("span", "cv");
       const local = typeof b.cover === "string" && /^capas\/[\w.-]+$/.test(b.cover);
@@ -357,7 +357,7 @@ function loadSheet(){
   fetch(CSV, { cache: "no-store" }).then(r => r.ok ? r.text() : "").then(t => {
     if (!t) return;
     const rows = parseCSV(t).slice(1);
-    fromSheet = rows.map(r => ({ title: (r[1]||"").trim(), author: (r[2]||"").trim(), kind: /quero|want/i.test(r[3]||"") ? "want" : "loved", name: (r[4]||"").trim() })).filter(b => b.title);
+    fromSheet = rows.map(r => ({ title: (r[1]||"").trim(), author: (r[2]||"").trim(), kind: /quero|want|lista/i.test(r[3]||"") ? "want" : "loved", name: (r[4]||"").trim() })).filter(b => b.title);
     const have = new Set(fromSheet.map(keyOf));
     pending = pending.filter(b => !have.has(keyOf(b)));
     try { localStorage.setItem("pendentes", JSON.stringify(pending)); } catch {}
@@ -380,7 +380,7 @@ $("addForm").addEventListener("submit", async ev => {
   if (!b.title || !b.author || !b.name) { $("addMsg").textContent = "Preencha o livro, a autora e o seu nome."; return; }
   $("sendAdd").disabled = true; $("addMsg").textContent = "Colocando…";
   const body = new URLSearchParams();
-  body.append(ENTRY.title, b.title); body.append(ENTRY.author, b.author); body.append(ENTRY.kind, b.kind === "want" ? "Quero ganhar" : "Já li e amei"); body.append(ENTRY.name, b.name);
+  body.append(ENTRY.title, b.title); body.append(ENTRY.author, b.author); body.append(ENTRY.kind, b.kind === "want" ? "Na minha lista" : "Já li e amei"); body.append(ENTRY.name, b.name);
   try {
     await fetch(FORM, { method: "POST", mode: "no-cors", body });
     pending.push(b);
