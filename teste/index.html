@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Amigas secretas · 28 de novembro</title>
+<meta name="description" content="Nosso amigo secreto de livros. Coloque seu código e descubra quem você tirou.">
+<meta property="og:title" content="Amigas secretas · 28 de novembro">
+<meta property="og:description" content="Nosso amigo secreto de livros. Coloque seu código e descubra quem você tirou.">
+<meta property="og:image" content="https://brunagunther.github.io/amigas-secretas/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://brunagunther.github.io/amigas-secretas/">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:,">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Homemade+Apple&family=Red+Hat+Display:wght@400;500;700&display=swap">
+<style>
+html,body{margin:0}img{max-width:100%}[hidden]{display:none!important}
+/* Layout: mirrors Bruna's Canva microsite (DAHbrTpBIak): pink page, red brush titles, green ribbons,
+   white cards with red borders, the tree in a green frame, the books drawing. Canva is the drawing board;
+   this page adds the countdown, the private draw, the confirmed names and the bookshelf. Single light look. */
+:root{
+  --pink:#FFFEF2; --cream:#FFF7E8; --white:#F6F1E3; --red:#C70000; --red-deep:#9E0000; --green:#1E4D33; --sage:#1E4D33; --wood:#B98A66;
+  --brush:"Homemade Apple","Snell Roundhand",cursive;
+  --label:"Red Hat Display","Helvetica Neue",sans-serif;
+  --sans:"Red Hat Display","Helvetica Neue",Arial,sans-serif;
+  color-scheme:light;
+}
+body{background:var(--pink);color:var(--green);font-family:var(--sans);font-size:16px;line-height:1.5;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:24px 48px}
+.wrap{max-width:1000px;margin:0 auto;display:flex;flex-direction:column;gap:72px}
+.label{color:var(--sage);font-family:var(--label);font-weight:500;text-transform:uppercase;letter-spacing:.12em;font-size:14px;margin:0}
+.brush{font-family:var(--brush);font-weight:400;color:var(--red);margin:0;line-height:1.45;letter-spacing:0}
+[data-edit]{white-space:pre-line}
+section{display:flex;flex-direction:column;gap:22px}
+h2.brush{font-size:clamp(28px,5vw,44px);text-align:center;text-wrap:balance}
+.center{text-align:center}
+.btn{font-family:var(--label);font-weight:500;font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--green);background:none;border:0;border-radius:0;padding:4px 0 7px;cursor:pointer;text-decoration:none;display:inline-block;position:relative}
+.btn::after{content:"";position:absolute;left:0;bottom:0;height:1px;width:28px;background:var(--red);transition:width .25s}
+.btn:hover::after,.btn:focus-visible::after{width:100%}
+.btn:disabled{opacity:.5;cursor:default}
+:focus-visible{outline:2px solid var(--red);outline-offset:3px}
+input{font:inherit;color:var(--red);background:transparent;border:0;border-bottom:1px solid var(--sage);border-radius:0;padding:8px 2px;min-width:0;outline:none}
+input:focus{border-bottom:1px solid var(--red)}
+input::placeholder{color:color-mix(in srgb,var(--sage) 55%,transparent)}
+
+/* Hero */
+.hero{display:grid;grid-template-columns:1.1fr 1fr;gap:28px;align-items:center}
+.hero .left{display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center}
+.hero .bow{width:min(320px,80%);height:auto;margin-bottom:-18px}
+.hero h1{font-size:clamp(38px,6.5vw,62px)}
+.hero .date{font-size:clamp(26px,4vw,36px)}
+.hero .right img{width:100%;max-width:420px;height:auto;display:block;margin:0 auto}
+
+/* Countdown */
+.count{display:flex;justify-content:center;gap:clamp(14px,4vw,40px);flex-wrap:wrap}
+.count div{display:flex;flex-direction:column;align-items:center}
+.count b{font-family:var(--label);font-weight:700;color:var(--red);font-size:clamp(48px,10vw,80px);line-height:1.05;font-variant-numeric:tabular-nums}
+.count span{color:var(--sage);font-family:var(--label);text-transform:uppercase;letter-spacing:.14em;font-size:13px}
+
+/* Draw */
+.draw{display:grid;grid-template-columns:1fr 1.1fr;gap:32px;align-items:center}
+.draw img{width:100%;max-width:440px;height:auto;display:block;margin:0 auto}
+.draw .txt{display:flex;flex-direction:column;gap:14px;text-align:center;align-items:center}
+.draw .txt p{margin:0;max-width:30em}
+.codeRow{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;align-items:stretch}
+#code{width:6.5ch;text-align:center;font-family:var(--label);font-weight:700;font-size:26px;letter-spacing:.3em}
+.msg{min-height:1.4em;margin:0;color:var(--red)}
+.result{font-size:clamp(36px,8vw,56px)}
+
+/* Detail cards */
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:0;max-width:900px;margin:0 auto;width:100%}
+.card{text-align:center;display:flex;flex-direction:column;gap:6px;padding:4px 26px}
+.card + .card{border-left:1px solid color-mix(in srgb,var(--red) 35%,transparent)}
+.card h3{font-size:26px}
+.card p{margin:0;font-family:var(--label);font-weight:500;text-transform:uppercase;letter-spacing:.12em;font-size:13px;line-height:1.8;color:var(--red)}
+.card a{color:var(--green)}
+
+/* Confirmed names, handwritten and scattered */
+.names{position:relative;display:flex;flex-wrap:wrap;justify-content:center;gap:6px 34px;padding:10px 0}
+.names span{font-family:var(--brush);font-size:clamp(24px,4.5vw,36px);line-height:1.6}
+.names span:nth-child(odd){color:var(--red)}
+.names span:nth-child(3n){transform:rotate(-6deg) translateY(8px)}
+.names span:nth-child(3n+1){transform:rotate(4deg) translateY(-6px)}
+.names span:nth-child(3n+2){transform:rotate(-2deg) translateY(12px)}
+
+/* Reading list: covers on the page, caption below, no shelves or boxes */
+.shelfHead{display:flex;align-items:baseline;gap:16px;margin-top:18px}
+.shelfHead h3{font-size:clamp(20px,3.5vw,24px);white-space:nowrap}
+.shelfHead::after{content:"";flex:1;height:1px;background:var(--sage);opacity:.3}
+.shelf{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:28px 22px}
+.book{display:flex;flex-direction:column;gap:10px;background:none;border:0;padding:0;cursor:pointer;text-align:left;color:inherit;font:inherit;text-transform:none;letter-spacing:0}
+.book .cv{aspect-ratio:2/3;width:100%;max-width:100%;overflow:hidden;background:var(--white);display:flex;align-items:center;justify-content:center;padding:12px;box-sizing:border-box;transition:transform .2s ease,box-shadow .2s ease;box-shadow:0 1px 2px rgba(30,77,51,.12)}
+.book.has .cv{padding:0}
+.book .cv img{width:100%;height:100%;object-fit:cover;display:block}
+.book .cv .ph{font-family:var(--brush);color:var(--red);font-size:13px;line-height:1.6;text-align:center;overflow-wrap:anywhere}
+.book:hover .cv,.book[aria-expanded="true"] .cv{transform:translateY(-4px);box-shadow:0 10px 22px rgba(30,77,51,.18)}
+.book .cap{display:flex;flex-direction:column;gap:2px;min-width:0}
+.book .t{font-weight:500;font-size:14px;line-height:1.3;color:var(--green);overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.book .a{font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:var(--sage);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.book .w{font-size:11px;letter-spacing:.08em;color:var(--red)}
+.empty{grid-column:1/-1;margin:0;color:var(--sage);font-style:italic}
+.detail{border-top:1px solid color-mix(in srgb,var(--sage) 30%,transparent);padding-top:22px;display:grid;grid-template-columns:auto 1fr;gap:24px;align-items:start}
+.detail .cov{width:120px;max-width:100%;height:auto;display:block;box-shadow:0 1px 2px rgba(30,77,51,.12)}
+.detail .info{display:flex;flex-direction:column;gap:6px;min-width:0}
+.detail h4{font-family:var(--brush);font-weight:400;color:var(--red);font-size:22px;line-height:1.5;margin:0;overflow-wrap:anywhere}
+.detail .by{font-size:12px;text-transform:uppercase;letter-spacing:.12em;color:var(--sage)}
+.detail .links{display:flex;gap:18px;flex-wrap:wrap;font-size:12px;text-transform:uppercase;letter-spacing:.12em}
+.detail .links a{color:var(--red)}
+.thread{display:flex;flex-direction:column;gap:6px;margin-top:8px}
+.thread p{margin:0;overflow-wrap:anywhere;font-size:15px}
+.thread b{font-weight:500;color:var(--red)}
+.reply{display:flex;gap:12px;flex-wrap:wrap;align-items:end}
+.reply input{flex:1 1 180px}
+form.add{border-top:1px solid color-mix(in srgb,var(--sage) 30%,transparent);padding-top:30px;display:flex;flex-direction:column;gap:16px;align-items:center;max-width:420px;margin:18px auto 0;width:100%}
+form.add .f{display:flex;flex-direction:column;gap:2px;width:100%;font-size:11px;text-transform:uppercase;letter-spacing:.14em;color:var(--sage)}
+form.add .f input{font-size:16px;text-transform:none;letter-spacing:0}
+.kind{display:flex;gap:22px;flex-wrap:wrap;justify-content:center;font-size:12px;text-transform:uppercase;letter-spacing:.12em;color:var(--green)}
+.kind label{display:flex;gap:6px;align-items:center;cursor:pointer}
+.kind input{accent-color:var(--red)}
+footer{text-align:center;font-size:32px}
+
+/* Owner edit mode */
+.editing [data-edit]{outline:2px dashed var(--green);outline-offset:4px;cursor:text}
+.editing [data-edit]:focus{outline-style:solid;background:var(--white)}
+.editbar{position:fixed;right:max(16px,env(safe-area-inset-right,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:flex-end;z-index:20}
+.editbar{background:var(--pink);padding:8px 14px;box-shadow:0 4px 16px rgba(30,77,51,.15);gap:18px}
+.editbar .ghost{color:var(--red)}
+#editMsg{background:var(--cream);padding:4px 8px}
+#editMsg:empty{display:none}
+
+@media (max-width:720px){
+  .hero,.draw{grid-template-columns:1fr}
+  .cards{grid-template-columns:1fr;gap:30px}
+  .card + .card{border-left:0}
+  .detail{grid-template-columns:1fr}
+}
+@media (prefers-reduced-motion:reduce){.book,.book .cv,.btn::after{transition:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="hero">
+    <div class="left">
+      <img class="bow" src="../img/bow.png" alt="" width="459" height="142">
+      <h1 class="brush">Amigas secretas</h1>
+      <p class="label">Versão de teste · não é o sorteio real</p>
+      <p class="brush date">28 de novembro</p>
+      <a class="btn" href="#sorteio">Quem eu tirei?</a>
+    </div>
+    <div class="right"><img src="../img/treeframe.png" alt="Árvore de Natal desenhada em vermelho, numa moldura verde" width="452" height="545"></div>
+  </header>
+
+  <section aria-labelledby="t-count">
+    <h2 class="brush" id="t-count"><span id="countTitle">Falta pouco para o sorteio</span></h2>
+    <div class="count" role="timer" aria-live="off">
+      <div><b id="cd-d">0</b><span>dias</span></div>
+      <div><b id="cd-h">0</b><span>horas</span></div>
+      <div><b id="cd-m">0</b><span>minutos</span></div>
+      <div><b id="cd-s">0</b><span>segundos</span></div>
+    </div>
+  </section>
+
+  <section class="draw" id="sorteio" aria-labelledby="t-draw">
+    <img src="../img/books.png" alt="Livros embrulhados com laço vermelho, azevinho e uma arvorezinha" width="500" height="511">
+    <div class="txt">
+      <h2 class="brush" id="t-draw">Descubra quem você tirou!</h2>
+      <p>O sorteio abre amanhã, 23 de novembro, às 9h. Você vai receber no WhatsApp um código só seu. Digite aqui e descubra quem você tirou. Ninguém mais vê, nem a organizadora.</p>
+      <form id="codeForm" class="codeRow" autocomplete="off">
+        <label for="code" class="label" style="width:100%">Seu código</label>
+        <input id="code" maxlength="4" inputmode="numeric" placeholder="····" aria-describedby="codeMsg">
+        <button class="btn" id="openBtn" type="submit">Ver quem eu tirei</button>
+      </form>
+      <p id="codeMsg" class="msg" aria-live="polite"></p>
+      <div id="resultBox" hidden>
+        <p class="label" id="hiName"></p>
+        <p class="brush result" id="drewName"></p>
+        <p>Guarde segredo até o dia 28. Olhe a estante: talvez ela já tenha dito o que quer ganhar.</p>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="t-details">
+    <h2 class="brush" id="t-details">Os detalhes até aqui</h2>
+    <div class="cards">
+      <div class="card"><h3 class="brush">Quando</h3><p>Sábado, 28 de novembro. Almoço logo depois da aula!</p></div>
+      <div class="card"><h3 class="brush">Onde</h3><p><span>Restaurante Chou, uns 15 minutinhos do IESE.</span><br><a href="https://www.instagram.com/restaurantechou/" target="_blank" rel="noopener" style="color:var(--red)">ver no Instagram</a></p></div>
+      <div class="card"><h3 class="brush">O livro</h3><p>Qualquer livro. De uma autora, ainda melhor! Com dedicatória e embrulhado.</p></div>
+    </div>
+  </section>
+
+  <section aria-labelledby="t-girls">
+    <h2 class="brush" id="t-girls">Confirmadas</h2>
+    <div class="names" id="names"><span>…</span></div>
+    <p class="label center">E vem mais gente por aí</p>
+  </section>
+
+  <section aria-labelledby="t-shelf" class="center">
+    <h2 class="brush" id="t-shelf">Nossa estante</h2>
+    <p style="margin:0">Livros que a gente leu e amou, e os que cada uma quer ganhar. Dá uma espiada antes de escolher o seu presente.</p>
+    <p style="margin:0"><a class="btn" href="https://claude.ai/artifact/G8hajbqXP9REtYtsQu9ZpQ" target="_blank" rel="noopener">Ver a estante</a></p>
+  </section>
+
+  <footer class="brush">até o dia 28!</footer>
+</div>
+
+<script>
+const REVEAL = new Date("2026-11-01T09:00:00-03:00");
+const LUNCH  = new Date("2026-11-28T13:30:00-03:00");
+const $ = id => document.getElementById(id);
+const el = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; };
+const str = (v, n) => String(v ?? "").slice(0, n);
+let draw = { participants: [], entries: [] };
+
+/* Countdown: to the draw, then to the lunch */
+function tick(){
+  const now = new Date();
+  const target = now < REVEAL ? REVEAL : LUNCH;
+  $("countTitle").textContent = now < REVEAL ? "Falta pouco para o sorteio" : (now < LUNCH ? "Falta pouco para o nosso encontro" : "Hoje é o dia!");
+  let s = Math.max(0, Math.floor((target - now) / 1000));
+  $("cd-d").textContent = Math.floor(s / 86400); s %= 86400;
+  $("cd-h").textContent = Math.floor(s / 3600); s %= 3600;
+  $("cd-m").textContent = Math.floor(s / 60);
+  $("cd-s").textContent = s % 60;
+}
+tick(); setInterval(tick, 1000);
+
+/* Private draw: each code opens only its own envelope */
+const fromB64 = s => Uint8Array.from(atob(s), c => c.charCodeAt(0));
+async function tryOpen(code, e){
+  const base = await crypto.subtle.importKey("raw", new TextEncoder().encode(code), "PBKDF2", false, ["deriveKey"]);
+  const key = await crypto.subtle.deriveKey({ name: "PBKDF2", salt: fromB64(e.s), iterations: 150000, hash: "SHA-256" }, base, { name: "AES-GCM", length: 256 }, false, ["decrypt"]);
+  return JSON.parse(new TextDecoder().decode(await crypto.subtle.decrypt({ name: "AES-GCM", iv: fromB64(e.i) }, key, fromB64(e.c))));
+}
+$("codeForm").addEventListener("submit", async ev => {
+  ev.preventDefault();
+  const code = $("code").value.replace(/\D/g, "");
+  $("codeMsg").textContent = "";
+  if (new Date() < REVEAL) { $("codeMsg").textContent = "Calma! O sorteio só abre amanhã às 9h. Guarde seu código."; return; }
+  if (!draw.entries.length) { $("codeMsg").textContent = "O sorteio ainda está sendo preparado. Volte daqui a pouco."; return; }
+  if (code.length !== 4) { $("codeMsg").textContent = "O código tem 4 números. Confira a mensagem no WhatsApp."; return; }
+  $("openBtn").disabled = true; $("openBtn").textContent = "Abrindo…";
+  let found = null;
+  for (const e of draw.entries) { try { found = await tryOpen(code, e); break; } catch {} }
+  $("openBtn").disabled = false; $("openBtn").textContent = "Ver quem eu tirei";
+  if (!found) { $("codeMsg").textContent = "Esse código não abriu nenhum envelope. Confira os números e tente de novo."; return; }
+  $("hiName").textContent = `${found.me}, você tirou:`;
+  $("drewName").textContent = found.drew;
+  $("resultBox").hidden = false;
+});
+const fromHash = location.hash.replace("#", "");
+if (/^\d{4}$/.test(fromHash)) { $("code").value = fromHash; setTimeout(() => $("sorteio").scrollIntoView(), 300); }
+
+/* Confirmed names: from the shared list (kept up to date from WhatsApp), else from the draw file */
+function renderNames(list){
+  if (!list || !list.length) return;
+  const box = $("names"); box.textContent = "";
+  list.slice(0, 40).forEach(n => box.append(el("span", null, str(n, 30))));
+}
+fetch("draw.json").then(r => r.json()).then(d => { draw = d; if (!namesFromDb) renderNames(d.participants); }).catch(() => {});
+let namesFromDb = false;
+
+</script>
+</body>
+</html>
