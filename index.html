@@ -320,7 +320,7 @@ const FORM = "https://docs.google.com/forms/d/e/1FAIpQLSej9z1YRcOhWNryZcwpvEnDiV
 const CSV = "https://docs.google.com/spreadsheets/d/1yOkpDJjHfc5bbu9nity1X4vmv0V6hFVfuVG8WMW621U/gviz/tq?tqx=out:csv&gid=753850197";
 const ENTRY = { title: "entry.661360488", author: "entry.1686580354", kind: "entry.1301013901", name: "entry.1530456873" };
 const okLink = u => typeof u === "string" && /^https:\/\/(www\.)?(amazon\.com\.br|lista\.mercadolivre\.com\.br|mercadolivre\.com\.br)\//.test(u);
-const keyOf = b => (str(b.title, 120) + "|" + str(b.name, 40)).toLowerCase().replace(/\s+/g, " ").trim();
+const keyOf = b => (str(b.typed || b.title, 120) + "|" + str(b.name, 40)).toLowerCase().replace(/\s+/g, " ").trim();
 const slug = t => t.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
 const shopFor = b => ({ amazon: "https://www.amazon.com.br/s?k=" + encodeURIComponent(b.title + " " + b.author), ml: "https://lista.mercadolivre.com.br/" + slug(b.title + " " + b.author) });
 let curated = [], fromSheet = [], pending = [];
