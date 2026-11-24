@@ -144,5 +144,49 @@
   "cover": "capas/cafe-tangerinn.jpg",
   "amazon": "https://www.amazon.com.br/s?k=Caf%C3%A9+Tangerinn+Emanuela+Anechoum",
   "ml": "https://lista.mercadolivre.com.br/cafe-tangerinn-emanuela-anechoum"
+ },
+ {
+  "kind": "loved",
+  "title": "A natureza da mordida",
+  "typed": "A natureza da mordida",
+  "author": "Carla Madeira",
+  "year": "2018",
+  "name": "Luciana",
+  "cover": "capas/a-natureza-da-mordida.jpg",
+  "amazon": "https://www.amazon.com.br/s?k=A+natureza+da+mordida+Carla+Madeira",
+  "ml": "https://lista.mercadolivre.com.br/a-natureza-da-mordida-carla-madeira"
+ },
+ {
+  "kind": "want",
+  "typed": "Tudo sobre o amor",
+  "name": "Fernanda",
+  "title": "Tudo sobre o amor",
+  "author": "bell hooks",
+  "year": "2000",
+  "cover": "capas/tudo-sobre-o-amor.jpg",
+  "amazon": "https://www.amazon.com.br/s?k=Tudo+sobre+o+amor+bell+hooks",
+  "ml": "https://lista.mercadolivre.com.br/tudo-sobre-o-amor-bell-hooks"
+ },
+ {
+  "kind": "want",
+  "typed": "Tudo é Rio",
+  "name": "Fernanda",
+  "title": "Tudo é rio",
+  "author": "Carla Madeira",
+  "year": "2014",
+  "cover": "capas/tudo-e-rio.jpg",
+  "amazon": "https://www.amazon.com.br/s?k=Tudo+%C3%A9+rio+Carla+Madeira",
+  "ml": "https://lista.mercadolivre.com.br/tudo-e-rio-carla-madeira"
+ },
+ {
+  "kind": "want",
+  "typed": "Tudo é rio",
+  "name": "Aline",
+  "title": "Tudo é rio",
+  "author": "Carla Madeira",
+  "year": "2014",
+  "cover": "capas/tudo-e-rio.jpg",
+  "amazon": "https://www.amazon.com.br/s?k=Tudo+%C3%A9+rio+Carla+Madeira",
+  "ml": "https://lista.mercadolivre.com.br/tudo-e-rio-carla-madeira"
  }
 ]
