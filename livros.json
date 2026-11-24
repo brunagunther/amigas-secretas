@@ -100,5 +100,49 @@
   "cover": "capas/indomavel.jpg",
   "amazon": "https://www.amazon.com.br/s?k=Indom%C3%A1vel+Glennon+Doyle",
   "ml": "https://lista.mercadolivre.com.br/indomavel-glennon-doyle"
+ },
+ {
+  "kind": "loved",
+  "title": "Oração para desaparecer",
+  "typed": "Oração para Desaparecer",
+  "author": "Socorro Acioli",
+  "year": "2023",
+  "name": "Luciana",
+  "cover": "capas/oracao-para-desaparecer.jpg",
+  "amazon": "https://www.amazon.com.br/s?k=Ora%C3%A7%C3%A3o+para+desaparecer+Socorro+Acioli",
+  "ml": "https://lista.mercadolivre.com.br/oracao-para-desaparecer-socorro-acioli"
+ },
+ {
+  "kind": "want",
+  "title": "Meridiana",
+  "typed": "Meridiana",
+  "author": "Eliana Alves Cruz",
+  "year": "2025",
+  "name": "Luciana",
+  "cover": "capas/meridiana.jpg",
+  "amazon": "https://www.amazon.com.br/s?k=Meridiana+Eliana+Alves+Cruz",
+  "ml": "https://lista.mercadolivre.com.br/meridiana-eliana-alves-cruz"
+ },
+ {
+  "kind": "want",
+  "title": "A redoma de vidro",
+  "typed": "A redoma de vidro",
+  "author": "Sylvia Plath",
+  "year": "1963",
+  "name": "Luciana",
+  "cover": "capas/a-redoma-de-vidro.jpg",
+  "amazon": "https://www.amazon.com.br/s?k=A+redoma+de+vidro+Sylvia+Plath",
+  "ml": "https://lista.mercadolivre.com.br/a-redoma-de-vidro-sylvia-plath"
+ },
+ {
+  "kind": "want",
+  "title": "Café Tangerinn",
+  "typed": "Café Tangerinn",
+  "author": "Emanuela Anechoum",
+  "year": "2025",
+  "name": "Luciana",
+  "cover": "capas/cafe-tangerinn.jpg",
+  "amazon": "https://www.amazon.com.br/s?k=Caf%C3%A9+Tangerinn+Emanuela+Anechoum",
+  "ml": "https://lista.mercadolivre.com.br/cafe-tangerinn-emanuela-anechoum"
  }
 ]
