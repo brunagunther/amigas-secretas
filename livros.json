@@ -21,23 +21,23 @@
  },
  {
   "kind": "want",
-  "title": "Yesteryear",
-  "author": "Caro Claire Burke",
-  "year": "2026",
+  "title": "Indomável",
+  "author": "Glennon Doyle",
+  "year": "2020",
   "name": "Bruna",
-  "cover": "capas/yesteryear.jpg",
-  "amazon": "https://www.amazon.com.br/s?k=Yesteryear+Caro+Claire+Burke",
-  "ml": "https://lista.mercadolivre.com.br/yesteryear-caro-claire-burke"
+  "cover": "capas/indomavel.jpg",
+  "amazon": "https://www.amazon.com.br/s?k=Indom%C3%A1vel+Glennon+Doyle",
+  "ml": "https://lista.mercadolivre.com.br/indomavel-glennon-doyle"
  },
  {
   "kind": "want",
-  "title": "Bom dia, inverno",
-  "typed": "Bom dia Inverno",
-  "author": "Tamara Klink",
+  "title": "É tempo de morangos",
+  "author": "Bruna Martiolli",
+  "year": "2025",
   "name": "Bruna",
-  "cover": "capas/bom-dia-inverno.jpg",
-  "amazon": "https://www.amazon.com.br/s?k=Bom+dia+inverno+Tamara+Klink",
-  "ml": "https://lista.mercadolivre.com.br/bom-dia-inverno-tamara-klink"
+  "cover": "capas/e-tempo-de-morangos.jpg",
+  "amazon": "https://www.amazon.com.br/s?k=%C3%89+tempo+de+morangos+Bruna+Martiolli",
+  "ml": "https://lista.mercadolivre.com.br/e-tempo-de-morangos-bruna-martiolli"
  },
  {
   "kind": "loved",

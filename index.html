@@ -341,9 +341,10 @@ async function findCover(b){
   } catch {}
   return coverCache[k];
 }
+const REMOVED = new Set(["bom dia inverno|bruna"]); // books taken off the shelf on request
 function allBooks(){
   const seen = new Set(), out = [];
-  [...curated, ...fromSheet, ...pending].forEach(b => { const k = keyOf(b); if (!b.title || seen.has(k)) return; seen.add(k); out.push(b); });
+  [...curated, ...fromSheet, ...pending].forEach(b => { const k = keyOf(b); if (!b.title || seen.has(k) || REMOVED.has(k)) return; seen.add(k); out.push(b); });
   return out;
 }
 function renderShelves(){
