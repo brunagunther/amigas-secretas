@@ -398,7 +398,7 @@ function renderShelves(){
     });
   });
 }
-fetch("livros.json").then(r => r.json()).then(l => { curated = l; renderShelves(); }).catch(() => renderShelves());
+fetch("livros.json", { cache: "no-store" }).then(r => r.json()).then(l => { curated = l; renderShelves(); }).catch(() => renderShelves());
 function loadSheet(){
   fetch(CSV, { cache: "no-store" }).then(r => r.ok ? r.text() : "").then(t => {
     if (!t) return;
