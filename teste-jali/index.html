@@ -179,8 +179,10 @@ dialog.pick::backdrop{background:rgba(30,77,51,.35)}
 .testbar{background:var(--red);color:#fff;text-align:center;font-size:12px;letter-spacing:.12em;text-transform:uppercase;padding:8px 16px}
 .filter{display:flex;flex-direction:column;align-items:center;gap:10px;margin:6px 0 4px}
 .filter .fl{font-size:clamp(18px,3.5vw,24px);text-align:center}
-.chips{display:flex;flex-wrap:wrap;justify-content:center;gap:6px 14px;max-width:100%}
-.btn.chip{font-size:11px;letter-spacing:.12em}
+.filter{align-items:stretch}
+.chips{display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px 10px;width:100%}
+.btn.chip{font-size:13px;letter-spacing:.16em}
+@media (max-width:900px){.chips{justify-content:center;gap:6px 18px}.btn.chip{font-size:12px}}
 .chip[aria-pressed="true"]{color:var(--red)}
 .btn.chip::after{width:0}
 .btn.chip:hover::after,.btn.chip:focus-visible::after,.btn.chip[aria-pressed="true"]::after{width:100%}
