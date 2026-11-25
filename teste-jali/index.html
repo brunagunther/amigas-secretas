@@ -595,7 +595,7 @@ function shelfBlock(title, list, emptyMsg){
 function renderChips(){
   const c = $("chips"); c.textContent = "";
   const all = el("button", "btn chip", "Todas"); all.type = "button"; all.setAttribute("aria-pressed", sel.size ? "false" : "true"); all.onclick = () => { sel.clear(); renderShelves(); }; c.append(all);
-  READERS.forEach(n => { const b = el("button", "btn chip", n); b.type = "button"; b.setAttribute("aria-pressed", sel.has(n) ? "true" : "false"); b.onclick = () => { sel.has(n) ? sel.delete(n) : sel.add(n); renderShelves(); }; c.append(b); });
+  READERS.forEach(n => { const b = el("button", "btn chip", n); b.type = "button"; b.setAttribute("aria-pressed", sel.has(n) ? "true" : "false"); b.onclick = () => { const was = sel.has(n); sel.clear(); if (!was) sel.add(n); renderShelves(); }; c.append(b); });
 }
 function renderShelves(){
   renderChips();
