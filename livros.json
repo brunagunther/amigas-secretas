@@ -228,5 +228,27 @@
   "cover": "capas/agua-fresca-para-as-flores.jpg",
   "amazon": "https://www.amazon.com.br/s?k=%C3%81gua+fresca+para+as+flores+Val%C3%A9rie+Perrin",
   "ml": "https://lista.mercadolivre.com.br/agua-fresca-para-as-flores-valerie-perrin"
+ },
+ {
+  "kind": "loved",
+  "title": "A contagem dos sonhos",
+  "typed": "A contagem dos Sonhos",
+  "author": "Chimamanda Ngozi Adichie",
+  "year": "2025",
+  "name": "Ve",
+  "cover": "capas/a-contagem-dos-sonhos.jpg",
+  "amazon": "https://www.amazon.com.br/s?k=A+contagem+dos+sonhos+Chimamanda+Ngozi+Adichie",
+  "ml": "https://lista.mercadolivre.com.br/a-contagem-dos-sonhos-chimamanda-ngozi-adichie"
+ },
+ {
+  "kind": "want",
+  "title": "Ter ou não ter filhos",
+  "typed": "Ter ou não ter filhos",
+  "author": "Ruth Manus",
+  "year": "2026",
+  "name": "Ve",
+  "cover": "capas/ter-ou-nao-ter-filhos.jpg",
+  "amazon": "https://www.amazon.com.br/s?k=Ter+ou+n%C3%A3o+ter+filhos+Ruth+Manus",
+  "ml": "https://lista.mercadolivre.com.br/ter-ou-nao-ter-filhos-ruth-manus"
  }
 ]

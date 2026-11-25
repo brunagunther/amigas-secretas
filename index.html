@@ -481,7 +481,7 @@ $("addForm").addEventListener("submit", async ev => {
 
 /* ===== "Já li" hearts ===== */
 const READERS = ["Aline","Amanda","Bruna","Domi","Fer","Gabi","Ju","Laura","Lu","Mafe","Paula","Ve"];
-const OWNER = {"maria fernanda":"Mafe","fernanda mouta":"Fer","fernanda":"Fer","luciana":"Lu","verônica":"Ve","júlia":"Ju"};
+const OWNER = {"maria fernanda":"Mafe","fernanda mouta":"Fer","fernanda":"Fer","luciana":"Lu","verônica":"Ve","vê":"Ve","ve":"Ve","júlia":"Ju"};
 const ownerNick = n => { const k = str(n,40).toLowerCase(); return OWNER[k] || str(n,40); };
 function bookId(b){ return str(b.title,120).toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-z0-9]+/g," ").trim(); }
 let baseMarks = {}, sheetMarks = null, myMarks = {}, me = null;
