@@ -154,8 +154,6 @@ dialog#addDlg::backdrop{background:rgba(30,77,51,.35)}
 .kind label{display:flex;gap:6px;align-items:center;cursor:pointer}
 .kind input{accent-color:var(--red)}
 .dlgBtns{display:flex;justify-content:space-between;gap:16px}
-
-.testbar{background:var(--red);color:#fff;text-align:center;font-size:12px;letter-spacing:.12em;text-transform:uppercase;padding:8px 16px}
 .who{display:flex;justify-content:center;align-items:center;gap:10px;flex-wrap:wrap;font-size:13px;color:var(--green);margin:6px 0 0}
 .who b{font-weight:500;color:var(--red)}
 .who button{background:none;border:0;padding:0;color:var(--red);text-decoration:underline;text-underline-offset:3px;font:inherit;font-size:12px;cursor:pointer;letter-spacing:0;text-transform:none}
@@ -177,10 +175,36 @@ dialog.pick::backdrop{background:rgba(30,77,51,.35)}
 .names button{padding:10px 4px;border:1px solid color-mix(in srgb,var(--green) 25%,transparent);background:#fff;color:var(--green);font:inherit;font-size:14px;cursor:pointer;text-transform:none;letter-spacing:0}
 .names button:hover{border-color:var(--red);color:var(--red)}
 .pick .x{display:block;margin:14px auto 0;background:none;border:0;color:var(--sage);font:inherit;font-size:12px;text-decoration:underline;cursor:pointer;text-transform:none;letter-spacing:0}
+
+.testbar{background:var(--red);color:#fff;text-align:center;font-size:12px;letter-spacing:.12em;text-transform:uppercase;padding:8px 16px}
+.filter{display:flex;flex-direction:column;align-items:center;gap:10px;margin:6px 0 4px}
+.filter .fl{font-size:11px;text-transform:uppercase;letter-spacing:.14em;color:var(--sage)}
+.chips{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;max-width:640px}
+.chip{border:1px solid color-mix(in srgb,var(--green) 25%,transparent);background:#fff;color:var(--green);border-radius:999px;padding:6px 14px;font:inherit;font-size:13px;cursor:pointer;text-transform:none;letter-spacing:0}
+.chip[aria-pressed="true"]{background:var(--green);border-color:var(--green);color:#fff}
+.acts{display:flex;gap:6px;flex-wrap:wrap}
+.act{display:inline-flex;align-items:center;gap:5px;background:none;border:1px solid color-mix(in srgb,var(--red) 35%,transparent);border-radius:999px;padding:4px 9px;color:var(--red);font:inherit;font-size:10px;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;white-space:nowrap}
+.act.want{border-color:color-mix(in srgb,var(--green) 35%,transparent);color:var(--green)}
+.act[aria-pressed="true"]{background:var(--red);border-color:var(--red);color:#fff}
+.act.want[aria-pressed="true"]{background:var(--green);border-color:var(--green);color:#fff}
+.dots{display:flex;align-items:center;background:none;border:0;padding:2px 0;cursor:pointer;font:inherit;text-transform:none;letter-spacing:0;align-self:flex-start}
+.dot{width:24px;height:24px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:10px;font-weight:500;margin-left:-6px;border:2px solid var(--ivory,#FFFEF2);box-sizing:content-box}
+.dot:first-child{margin-left:0}
+.dot.r{background:var(--red);color:#fff}
+.dot.w{background:#fff;color:var(--green);box-shadow:inset 0 0 0 1.5px var(--green)}
+.dots .more{font-size:11px;color:var(--sage);margin-left:6px}
+.legend{display:flex;justify-content:center;gap:16px;font-size:11px;color:var(--sage);margin:0}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:5px;vertical-align:-1px}
+dialog.who-dlg{border:0;padding:26px 24px;max-width:340px;width:calc(100% - 32px);background:var(--ivory,#FFFEF2);color:var(--green);box-shadow:0 18px 50px rgba(30,77,51,.25)}
+dialog.who-dlg::backdrop{background:rgba(30,77,51,.35)}
+.who-dlg h3{font-family:var(--brush);font-weight:400;color:var(--red);margin:0 0 14px;font-size:20px;line-height:1.5}
+.who-dlg h4{margin:12px 0 4px;font-size:11px;text-transform:uppercase;letter-spacing:.14em;color:var(--sage);font-weight:500}
+.who-dlg p{margin:0;font-size:15px}
+.who-dlg .x{display:block;margin:18px auto 0;background:none;border:0;color:var(--sage);font:inherit;font-size:12px;text-decoration:underline;cursor:pointer;text-transform:none;letter-spacing:0}
 </style>
 </head>
 <body>
-<div class="testbar">Versão de teste · os corações ficam salvos só neste aparelho</div>
+<div class="testbar">Versão de teste · o que você marcar fica salvo só neste aparelho</div>
 <div class="wrap">
   <header class="hero">
     <div class="left">
@@ -241,13 +265,13 @@ dialog.pick::backdrop{background:rgba(30,77,51,.35)}
     <h2 class="brush" id="t-shelf">Nossa estante</h2>
     <p class="center" style="margin:0">Livros que a gente leu e amou, e os que estão na lista de cada uma. Dá uma espiada antes de escolher o seu presente.</p>
     <p class="who" id="who"></p>
-    <p class="tip">Toque em ♡ Já li nos livros que você já leu. Assim quem te tirou não te dá repetido.</p>
-    <div class="shelfHead"><h3 class="brush">Já li e amei</h3></div>
-    <div class="shelf" id="shelf-loved"><p class="empty">Carregando…</p></div>
-    <p class="center" style="margin:0"><button type="button" class="btn" data-add="loved">Adicionar um livro que amei</button></p>
-    <div class="shelfHead"><h3 class="brush">Ainda não li, mas está na minha lista</h3></div>
-    <div class="shelf" id="shelf-want"><p class="empty">Carregando…</p></div>
-    <p class="center" style="margin:0"><button type="button" class="btn" data-add="want">Adicionar um livro da minha lista</button></p>
+    <p class="tip">Marque ♡ Já li ou + Quero ler. Assim quem te tirou sabe o que te dar.</p>
+    <div class="filter" role="group" aria-label="Ver a estante de">
+      <span class="fl">Ver a estante de</span>
+      <div class="chips" id="chips"></div>
+    </div>
+    <div id="shelves"></div>
+    <p class="center" style="margin:0"><button type="button" class="btn" data-add="loved">Adicionar um livro</button></p>
     <div class="shelfHead"><h3 class="brush">Dicas do clube do livro da Obvious</h3></div>
     <p style="margin:0;font-size:14px">Os 12 livros da temporada do <a href="https://obvious.cc/clube" target="_blank" rel="noopener" style="color:var(--red)">Obvious Clube</a>, todos de autoras mulheres.</p>
     <div class="shelf" id="shelf-obvious">
@@ -271,6 +295,11 @@ dialog.pick::backdrop{background:rgba(30,77,51,.35)}
     <p>É só uma vez. Este aparelho vai lembrar.</p>
     <div class="names" id="pickNames"></div>
     <button type="button" class="x" id="pickCancel">Agora não</button>
+  </dialog>
+  <dialog id="whoDlg" class="who-dlg" aria-labelledby="whoTitle">
+    <h3 id="whoTitle"></h3>
+    <div id="whoBody"></div>
+    <button type="button" class="x" id="whoClose">Fechar</button>
   </dialog>
   <dialog id="addDlg" aria-labelledby="dlgTitle">
     <form id="addForm" method="dialog">
@@ -401,12 +430,14 @@ function renderShelves(){
     });
   });
 }
-fetch("../livros.json").then(r => r.json()).then(l => { curated = l; renderShelves(); }).catch(() => renderShelves());
+fetch("../livros.json", { cache: "no-store" }).then(r => r.json()).then(l => { curated = l; renderShelves(); }).catch(() => renderShelves());
 function loadSheet(){
   fetch(CSV, { cache: "no-store" }).then(r => r.ok ? r.text() : "").then(t => {
     if (!t) return;
     const rows = parseCSV(t).slice(1);
-    fromSheet = rows.map(r => ({ title: (r[1]||"").trim(), author: (r[2]||"").trim(), kind: /quero|want|lista/i.test(r[3]||"") ? "want" : "loved", name: (r[4]||"").trim() })).filter(b => b.title);
+    const isMark = r => /^(j[aá] li|tirei)/i.test((r[3]||"").trim());
+    sheetMarks = {}; rows.filter(isMark).forEach(r => { const id = bookId({ title: r[1] }), n = (r[4]||"").trim(); if (!id || !n) return; const l = (sheetMarks[id] || []).filter(x => x !== n); if (/^j[aá] li/i.test(r[3].trim())) l.push(n); if (l.length) sheetMarks[id] = l; else delete sheetMarks[id]; });
+    fromSheet = rows.filter(r => !isMark(r)).map(r => ({ title: (r[1]||"").trim(), author: (r[2]||"").trim(), kind: /quero|want|lista/i.test(r[3]||"") ? "want" : "loved", name: (r[4]||"").trim() })).filter(b => b.title);
     const have = new Set(fromSheet.map(keyOf));
     pending = pending.filter(b => !have.has(keyOf(b)));
     try { localStorage.setItem("pendentes", JSON.stringify(pending)); } catch {}
@@ -431,7 +462,7 @@ $("addForm").addEventListener("submit", async ev => {
   const body = new URLSearchParams();
   body.append(ENTRY.title, b.title); body.append(ENTRY.author, b.author); body.append(ENTRY.kind, b.kind === "want" ? "Na minha lista" : "Já li e amei"); body.append(ENTRY.name, b.name);
   try {
-    /* teste: não envia para a planilha */
+    /* teste: não envia */
     pending.push(b);
     try { localStorage.setItem("pendentes", JSON.stringify(pending)); localStorage.setItem("nome", b.name); } catch {}
     renderShelves();
@@ -442,15 +473,19 @@ $("addForm").addEventListener("submit", async ev => {
   $("sendAdd").disabled = false;
 });
 
-/* ===== "Já li" (teste) ===== */
+/* ===== "Já li" hearts ===== */
 const READERS = ["Aline","Amanda","Bruna","Domi","Fer","Gabi","Ju","Laura","Lu","Mafe","Paula","Ve"];
 const OWNER = {"maria fernanda":"Mafe","fernanda mouta":"Fer","fernanda":"Fer","luciana":"Lu","verônica":"Ve","júlia":"Ju"};
 const ownerNick = n => { const k = str(n,40).toLowerCase(); return OWNER[k] || str(n,40); };
-const bookId = b => str(b.title,120).toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-z0-9]+/g," ").trim();
-const DEMO = {"tudo e rio":["Bruna","Gabi","Lu"],"hibisco roxo":["Mafe","Domi"],"a redoma de vidro":["Paula"],"indomavel":["Gabi","Ve"]};
-let marks; try { marks = JSON.parse(localStorage.getItem("jali-teste")) || DEMO; } catch { marks = DEMO; }
-let me = null; try { me = localStorage.getItem("eu-teste"); } catch {}
-const saveMarks = () => { try { localStorage.setItem("jali-teste", JSON.stringify(marks)); } catch {} };
+function bookId(b){ return str(b.title,120).toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-z0-9]+/g," ").trim(); }
+let baseMarks = {}, sheetMarks = null, myMarks = {}, me = null;
+try { me = localStorage.getItem("eu"); myMarks = JSON.parse(localStorage.getItem("jali")) || {}; } catch {}
+fetch("../jali.json", { cache: "no-store" }).then(r => r.json()).then(m => { baseMarks = m || {}; renderShelves(); }).catch(() => {});
+function readersOf(id){
+  let l = [...((sheetMarks || baseMarks)[id] || [])];
+  if (me && id in myMarks) { l = l.filter(x => x !== me); if (myMarks[id]) l.push(me); }
+  return l;
+}
 function renderWho(){
   const w = $("who"); w.textContent = "";
   if (me) { w.append("Você é ", el("b", null, me)); const c = el("button", null, "trocar"); c.type = "button"; c.onclick = () => openPick(null); w.append(c); }
@@ -458,16 +493,23 @@ function renderWho(){
 }
 let afterPick = null;
 function openPick(cb){ afterPick = cb; $("pickDlg").showModal(); }
-READERS.forEach(n => { const b = el("button", null, n); b.type = "button"; b.onclick = () => { me = n; try { localStorage.setItem("eu-teste", n); } catch {} $("pickDlg").close(); renderWho(); const cb = afterPick; afterPick = null; if (cb) cb(); else renderShelves(); }; $("pickNames").append(b); });
+READERS.forEach(n => { const b = el("button", null, n); b.type = "button"; b.onclick = () => { if (me !== n) myMarks = {}; me = n; try { localStorage.setItem("eu", n); localStorage.setItem("jali", JSON.stringify(myMarks)); } catch {} $("pickDlg").close(); renderWho(); const cb = afterPick; afterPick = null; if (cb) cb(); else renderShelves(); }; $("pickNames").append(b); });
 $("pickCancel").onclick = () => { afterPick = null; $("pickDlg").close(); };
 function readBox(b){
-  const id = bookId(b), list = marks[id] || [];
+  const id = bookId(b), list = readersOf(id);
   const wrap = el("div", "read");
   const on = !!me && list.includes(me);
   const h = el("button", "heart"); h.type = "button"; h.setAttribute("aria-pressed", on ? "true" : "false");
   h.append(el("span", "h", on ? "♥" : "♡"), el("span", null, "Já li"));
   h.onclick = () => {
-    const toggle = () => { const l = marks[id] || []; marks[id] = l.includes(me) ? l.filter(x => x !== me) : [...l, me]; if (!marks[id].length) delete marks[id]; saveMarks(); renderShelves(); };
+    const toggle = () => {
+      const now = !readersOf(id).includes(me);
+      myMarks[id] = now; try { localStorage.setItem("jali", JSON.stringify(myMarks)); } catch {}
+      renderShelves();
+      const body = new URLSearchParams();
+      body.append(ENTRY.title, str(b.title,120)); body.append(ENTRY.author, str(b.author,80)); body.append(ENTRY.kind, now ? "Já li" : "Tirei o já li"); body.append(ENTRY.name, me);
+      fetch(FORM, { method: "POST", mode: "no-cors", body }).catch(() => {});
+    };
     if (!me) openPick(toggle); else toggle();
   };
   wrap.append(h);
@@ -477,6 +519,87 @@ function readBox(b){
   return wrap;
 }
 renderWho();
+/* ===== Teste v2: Já li + Quero ler + filtro ===== */
+const KEY = "teste-v2";
+let mine = {}; try { mine = JSON.parse(localStorage.getItem(KEY)) || {}; } catch {}
+let sel = new Set();
+const initials = n => n.slice(0, 2);
+function catalog(){
+  const map = new Map();
+  allBooks().forEach(b => {
+    const id = bookId(b); if (!id) return;
+    if (!map.has(id)) map.set(id, { id, b, read: new Set(), want: new Set() });
+    const e = map.get(id), o = ownerNick(b.name);
+    if (!e.b.cover && b.cover) e.b = b;
+    (b.kind === "want" ? e.want : e.read).add(o);
+  });
+  for (const [id, names] of Object.entries(sheetMarks || baseMarks)) { const e = map.get(id); if (e) names.forEach(n => { e.read.add(n); }); }
+  for (const e of map.values()) e.want.forEach(n => { if (e.read.has(n)) e.want.delete(n); });
+  if (me) for (const [id, v] of Object.entries(mine)) { const e = map.get(id); if (!e) continue; e.read.delete(me); e.want.delete(me); if (v === "read") e.read.add(me); if (v === "want") e.want.add(me); }
+  return [...map.values()];
+}
+function card(e){
+  const b = e.b, item = el("div", "item"), cardEl = el("div", "book"), cv = el("span", "cv");
+  const local = typeof b.cover === "string" && /^capas\/[\w.-]+$/.test(b.cover);
+  const showImg = src => { cardEl.classList.add("has"); cv.textContent = ""; const img = el("img"); img.src = src; img.alt = "Capa de " + str(b.title, 80); img.loading = "lazy"; cv.append(img); };
+  cv.append(el("span", "ph", str(b.title, 120)));
+  if (local) showImg("../" + b.cover); else findCover(b).then(u => { if (u) showImg(u); });
+  const cap = el("span", "cap"); cap.append(el("span", "t", str(b.title, 120)), el("span", "a", str(b.author, 80)));
+  cardEl.append(cv, cap); item.append(cardEl);
+  const acts = el("div", "acts");
+  [["read","♡","♥","Já li",""],["want","+","✓","Quero ler"," want"]].forEach(([k,off,on,label,cls]) => {
+    const isOn = !!me && e[k].has(me);
+    const a = el("button", "act" + cls); a.type = "button"; a.setAttribute("aria-pressed", isOn ? "true" : "false");
+    a.append(el("span", null, isOn ? on : off), el("span", null, label));
+    a.onclick = () => { const go = () => { const cur = catalog().find(x => x.id === e.id); const now = cur && cur[k].has(me); mine[e.id] = now ? "none" : k; try { localStorage.setItem(KEY, JSON.stringify(mine)); } catch {} renderShelves(); }; if (!me) openPick(go); else go(); };
+    acts.append(a);
+  });
+  item.append(acts);
+  const all = [...[...e.read].map(n => [n,"r"]), ...[...e.want].map(n => [n,"w"])];
+  if (all.length) {
+    const d = el("button", "dots"); d.type = "button"; d.setAttribute("aria-label", "Ver quem já leu e quem quer ler");
+    all.slice(0, 4).forEach(([n,c]) => d.append(el("span", "dot " + c, initials(n))));
+    if (all.length > 4) d.append(el("span", "more", "+" + (all.length - 4)));
+    d.onclick = () => showWho(e);
+    item.append(d);
+  }
+  const links = okLink(b.amazon) ? b : shopFor(b), shop = el("div", "shop");
+  [["amazon","Amazon"],["ml","Mercado Livre"]].forEach(([k,l]) => { if (okLink(links[k])) { const a = el("a", null, l); a.href = links[k]; a.target = "_blank"; a.rel = "noopener"; shop.append(a); } });
+  item.append(shop);
+  return item;
+}
+function showWho(e){
+  $("whoTitle").textContent = str(e.b.title, 120); const body = $("whoBody"); body.textContent = "";
+  if (e.read.size) { body.append(el("h4", null, "Já leram")); body.append(el("p", null, [...e.read].join(", "))); }
+  if (e.want.size) { body.append(el("h4", null, "Querem ler")); body.append(el("p", null, [...e.want].join(", "))); }
+  $("whoDlg").showModal();
+}
+$("whoClose").onclick = () => $("whoDlg").close();
+const joinNames = a => a.length === 1 ? a[0] : a.slice(0, -1).join(", ") + " e " + a[a.length - 1];
+function shelfBlock(title, list, emptyMsg){
+  const frag = document.createDocumentFragment();
+  if (title) { const h = el("div", "shelfHead"); h.append(el("h3", "brush", title)); frag.append(h); }
+  const box = el("div", "shelf");
+  if (!list.length) box.append(el("p", "empty", emptyMsg)); else list.forEach(e => box.append(card(e)));
+  frag.append(box); return frag;
+}
+function renderChips(){
+  const c = $("chips"); c.textContent = "";
+  const all = el("button", "chip", "Todas"); all.type = "button"; all.setAttribute("aria-pressed", sel.size ? "false" : "true"); all.onclick = () => { sel.clear(); renderShelves(); }; c.append(all);
+  READERS.forEach(n => { const b = el("button", "chip", n); b.type = "button"; b.setAttribute("aria-pressed", sel.has(n) ? "true" : "false"); b.onclick = () => { sel.has(n) ? sel.delete(n) : sel.add(n); renderShelves(); }; c.append(b); });
+}
+function renderShelves(){
+  renderChips();
+  const host = $("shelves"); host.textContent = "";
+  const cat = catalog();
+  const lg = el("p", "legend"); const a = el("span"); const ia = el("i"); ia.style.background = "var(--red)"; a.append(ia, "já leu"); const b2 = el("span"); const ib = el("i"); ib.style.boxShadow = "inset 0 0 0 1.5px var(--green)"; b2.append(ib, "quer ler"); lg.append(a, b2);
+  if (!sel.size) { host.append(lg, shelfBlock(null, cat, "Carregando…")); return; }
+  const names = [...sel], who = joinNames(names), plural = names.length > 1;
+  host.append(lg);
+  host.append(shelfBlock(who + (plural ? " querem ler" : " quer ler"), cat.filter(e => names.some(n => e.want.has(n))), "Nenhum livro na lista ainda."));
+  host.append(shelfBlock(who + (plural ? " já leram" : " já leu"), cat.filter(e => names.some(n => e.read.has(n))), "Nenhum livro marcado ainda."));
+}
+renderShelves();
 </script>
 </body>
 </html>
