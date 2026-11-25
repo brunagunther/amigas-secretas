@@ -154,6 +154,27 @@ dialog#addDlg::backdrop{background:rgba(30,77,51,.35)}
 .kind label{display:flex;gap:6px;align-items:center;cursor:pointer}
 .kind input{accent-color:var(--red)}
 .dlgBtns{display:flex;justify-content:space-between;gap:16px}
+.who{display:flex;justify-content:center;align-items:center;gap:10px;flex-wrap:wrap;font-size:13px;color:var(--green);margin:6px 0 0}
+.who b{font-weight:500;color:var(--red)}
+.who button{background:none;border:0;padding:0;color:var(--red);text-decoration:underline;text-underline-offset:3px;font:inherit;font-size:12px;cursor:pointer;letter-spacing:0;text-transform:none}
+.tip{text-align:center;font-size:13px;color:var(--sage);margin:4px 0 0}
+.read{display:flex;flex-direction:column;gap:4px;min-width:0}
+.heart{align-self:flex-start;display:inline-flex;align-items:center;gap:6px;background:none;border:1px solid color-mix(in srgb,var(--red) 35%,transparent);border-radius:999px;padding:4px 10px 4px 8px;color:var(--red);font:inherit;font-size:11px;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:background .15s ease,transform .15s ease}
+.heart .h{font-size:14px;line-height:1;transition:transform .2s ease}
+.heart[aria-pressed="true"]{background:var(--red);color:#fff;border-color:var(--red)}
+.heart[aria-pressed="true"] .h{transform:scale(1.15)}
+.heart:active{transform:scale(.96)}
+.readers{font-size:11px;color:var(--green);line-height:1.4;overflow-wrap:anywhere}
+.readers b{font-weight:500}
+.owner-read{font-size:11px;color:var(--red);font-style:italic}
+dialog.pick{border:0;padding:28px 22px;max-width:360px;width:calc(100% - 32px);background:var(--ivory,#FFFEF2);color:var(--green);box-shadow:0 18px 50px rgba(30,77,51,.25)}
+dialog.pick::backdrop{background:rgba(30,77,51,.35)}
+.pick h3{font-family:var(--brush);font-weight:400;color:var(--red);text-align:center;margin:0 0 6px;font-size:22px}
+.pick p{text-align:center;margin:0 0 16px;font-size:13px;color:var(--sage)}
+.names{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.names button{padding:10px 4px;border:1px solid color-mix(in srgb,var(--green) 25%,transparent);background:#fff;color:var(--green);font:inherit;font-size:14px;cursor:pointer;text-transform:none;letter-spacing:0}
+.names button:hover{border-color:var(--red);color:var(--red)}
+.pick .x{display:block;margin:14px auto 0;background:none;border:0;color:var(--sage);font:inherit;font-size:12px;text-decoration:underline;cursor:pointer;text-transform:none;letter-spacing:0}
 </style>
 </head>
 <body>
@@ -216,6 +237,8 @@ dialog#addDlg::backdrop{background:rgba(30,77,51,.35)}
   <section aria-labelledby="t-shelf">
     <h2 class="brush" id="t-shelf">Nossa estante</h2>
     <p class="center" style="margin:0">Livros que a gente leu e amou, e os que estão na lista de cada uma. Dá uma espiada antes de escolher o seu presente.</p>
+    <p class="who" id="who"></p>
+    <p class="tip">Toque em ♡ Já li nos livros que você já leu. Assim quem te tirou não te dá repetido.</p>
     <div class="shelfHead"><h3 class="brush">Já li e amei</h3></div>
     <div class="shelf" id="shelf-loved"><p class="empty">Carregando…</p></div>
     <p class="center" style="margin:0"><button type="button" class="btn" data-add="loved">Adicionar um livro que amei</button></p>
@@ -240,6 +263,12 @@ dialog#addDlg::backdrop{background:rgba(30,77,51,.35)}
     </div>
   </section>
 
+  <dialog id="pickDlg" class="pick" aria-labelledby="pickTitle">
+    <h3 id="pickTitle">Quem é você?</h3>
+    <p>É só uma vez. Este aparelho vai lembrar.</p>
+    <div class="names" id="pickNames"></div>
+    <button type="button" class="x" id="pickCancel">Agora não</button>
+  </dialog>
   <dialog id="addDlg" aria-labelledby="dlgTitle">
     <form id="addForm" method="dialog">
       <h3 class="brush" id="dlgTitle">Colocar na estante</h3>
@@ -365,7 +394,7 @@ function renderShelves(){
       const links = okLink(b.amazon) ? b : shopFor(b);
       const shop = el("div", "shop");
       [["amazon","Amazon"],["ml","Mercado Livre"]].forEach(([k,l]) => { if (okLink(links[k])) { const a = el("a", null, l); a.href = links[k]; a.target = "_blank"; a.rel = "noopener"; shop.append(a); } });
-      item.append(shop); box.append(item);
+      item.append(shop); item.append(readBox(b)); box.append(item);
     });
   });
 }
@@ -374,7 +403,9 @@ function loadSheet(){
   fetch(CSV, { cache: "no-store" }).then(r => r.ok ? r.text() : "").then(t => {
     if (!t) return;
     const rows = parseCSV(t).slice(1);
-    fromSheet = rows.map(r => ({ title: (r[1]||"").trim(), author: (r[2]||"").trim(), kind: /quero|want|lista/i.test(r[3]||"") ? "want" : "loved", name: (r[4]||"").trim() })).filter(b => b.title);
+    const isMark = r => /^(j[aá] li|tirei)/i.test((r[3]||"").trim());
+    sheetMarks = {}; rows.filter(isMark).forEach(r => { const id = bookId({ title: r[1] }), n = (r[4]||"").trim(); if (!id || !n) return; const l = (sheetMarks[id] || []).filter(x => x !== n); if (/^j[aá] li/i.test(r[3].trim())) l.push(n); if (l.length) sheetMarks[id] = l; else delete sheetMarks[id]; });
+    fromSheet = rows.filter(r => !isMark(r)).map(r => ({ title: (r[1]||"").trim(), author: (r[2]||"").trim(), kind: /quero|want|lista/i.test(r[3]||"") ? "want" : "loved", name: (r[4]||"").trim() })).filter(b => b.title);
     const have = new Set(fromSheet.map(keyOf));
     pending = pending.filter(b => !have.has(keyOf(b)));
     try { localStorage.setItem("pendentes", JSON.stringify(pending)); } catch {}
@@ -409,6 +440,53 @@ $("addForm").addEventListener("submit", async ev => {
   } catch { $("addMsg").textContent = "Não deu para salvar agora. Confira a internet e tente de novo."; }
   $("sendAdd").disabled = false;
 });
+
+/* ===== "Já li" hearts ===== */
+const READERS = ["Aline","Amanda","Bruna","Domi","Fer","Gabi","Ju","Laura","Lu","Mafe","Paula","Ve"];
+const OWNER = {"maria fernanda":"Mafe","fernanda mouta":"Fer","fernanda":"Fer","luciana":"Lu","verônica":"Ve","júlia":"Ju"};
+const ownerNick = n => { const k = str(n,40).toLowerCase(); return OWNER[k] || str(n,40); };
+function bookId(b){ return str(b.title,120).toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-z0-9]+/g," ").trim(); }
+let baseMarks = {}, sheetMarks = null, myMarks = {}, me = null;
+try { me = localStorage.getItem("eu"); myMarks = JSON.parse(localStorage.getItem("jali")) || {}; } catch {}
+fetch("jali.json", { cache: "no-store" }).then(r => r.json()).then(m => { baseMarks = m || {}; renderShelves(); }).catch(() => {});
+function readersOf(id){
+  let l = [...((sheetMarks || baseMarks)[id] || [])];
+  if (me && id in myMarks) { l = l.filter(x => x !== me); if (myMarks[id]) l.push(me); }
+  return l;
+}
+function renderWho(){
+  const w = $("who"); w.textContent = "";
+  if (me) { w.append("Você é ", el("b", null, me)); const c = el("button", null, "trocar"); c.type = "button"; c.onclick = () => openPick(null); w.append(c); }
+  else { const c = el("button", null, "Quem é você? Toque aqui"); c.type = "button"; c.onclick = () => openPick(null); w.append(c); }
+}
+let afterPick = null;
+function openPick(cb){ afterPick = cb; $("pickDlg").showModal(); }
+READERS.forEach(n => { const b = el("button", null, n); b.type = "button"; b.onclick = () => { if (me !== n) myMarks = {}; me = n; try { localStorage.setItem("eu", n); localStorage.setItem("jali", JSON.stringify(myMarks)); } catch {} $("pickDlg").close(); renderWho(); const cb = afterPick; afterPick = null; if (cb) cb(); else renderShelves(); }; $("pickNames").append(b); });
+$("pickCancel").onclick = () => { afterPick = null; $("pickDlg").close(); };
+function readBox(b){
+  const id = bookId(b), list = readersOf(id);
+  const wrap = el("div", "read");
+  const on = !!me && list.includes(me);
+  const h = el("button", "heart"); h.type = "button"; h.setAttribute("aria-pressed", on ? "true" : "false");
+  h.append(el("span", "h", on ? "♥" : "♡"), el("span", null, "Já li"));
+  h.onclick = () => {
+    const toggle = () => {
+      const now = !readersOf(id).includes(me);
+      myMarks[id] = now; try { localStorage.setItem("jali", JSON.stringify(myMarks)); } catch {}
+      renderShelves();
+      const body = new URLSearchParams();
+      body.append(ENTRY.title, str(b.title,120)); body.append(ENTRY.author, str(b.author,80)); body.append(ENTRY.kind, now ? "Já li" : "Tirei o já li"); body.append(ENTRY.name, me);
+      fetch(FORM, { method: "POST", mode: "no-cors", body }).catch(() => {});
+    };
+    if (!me) openPick(toggle); else toggle();
+  };
+  wrap.append(h);
+  if (list.length) { const r = el("span", "readers"); r.append(el("b", null, list.length === 1 ? "Já leu: " : "Já leram: "), list.join(", ")); wrap.append(r); }
+  const owner = ownerNick(b.name);
+  if (b.kind === "want" && list.includes(owner)) wrap.append(el("span", "owner-read", owner + " marcou que já leu este"));
+  return wrap;
+}
+renderWho();
 </script>
 </body>
 </html>
