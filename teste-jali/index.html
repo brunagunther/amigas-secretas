@@ -526,6 +526,10 @@ function readBox(b){
 renderWho();
 /* ===== Teste v2: Já li + Quero ler + filtro ===== */
 const KEY = "teste-v2";
+const OBV = [...document.querySelectorAll("#shelf-obvious .item")].map(it => {
+  const links = [...it.querySelectorAll(".shop a")];
+  return { title: it.querySelector(".t").textContent, author: it.querySelector(".a").textContent, coverUrl: it.querySelector("img").src, amazon: links[0] && links[0].href, ml: links[1] && links[1].href, obv: true };
+});
 let mine = {}; try { mine = JSON.parse(localStorage.getItem(KEY)) || {}; } catch {}
 let sel = new Set();
 const initials = n => n.slice(0, 2);
@@ -538,6 +542,7 @@ function catalog(){
     if (!e.b.cover && b.cover) e.b = b;
     (b.kind === "want" ? e.want : e.read).add(o);
   });
+  OBV.forEach(b => { const id = bookId(b); if (!map.has(id)) map.set(id, { id, b, read: new Set(), want: new Set(), obv: true }); });
   for (const [id, names] of Object.entries(sheetMarks || baseMarks)) { const e = map.get(id); if (e) names.forEach(n => { e.read.add(n); }); }
   for (const e of map.values()) e.want.forEach(n => { if (e.read.has(n)) e.want.delete(n); });
   if (me) for (const [id, v] of Object.entries(mine)) { const e = map.get(id); if (!e) continue; e.read.delete(me); e.want.delete(me); if (v === "read") e.read.add(me); if (v === "want") e.want.add(me); }
@@ -548,7 +553,7 @@ function card(e){
   const local = typeof b.cover === "string" && /^capas\/[\w.-]+$/.test(b.cover);
   const showImg = src => { cardEl.classList.add("has"); cv.textContent = ""; const img = el("img"); img.src = src; img.alt = "Capa de " + str(b.title, 80); img.loading = "lazy"; cv.append(img); };
   cv.append(el("span", "ph", str(b.title, 120)));
-  if (local) showImg("../" + b.cover); else findCover(b).then(u => { if (u) showImg(u); });
+  if (b.coverUrl) showImg(b.coverUrl); else if (local) showImg("../" + b.cover); else findCover(b).then(u => { if (u) showImg(u); });
   const cap = el("span", "cap"); cap.append(el("span", "t", str(b.title, 120)), el("span", "a", str(b.author, 80)));
   cardEl.append(cv, cap); item.append(cardEl);
   const acts = el("div", "acts");
@@ -601,8 +606,9 @@ function renderShelves(){
   renderChips();
   const host = $("shelves"); host.textContent = "";
   const cat = catalog();
+  const ob = $("shelf-obvious"); ob.textContent = ""; cat.filter(e => e.obv).forEach(e => ob.append(card(e)));
   const lg = el("p", "legend"); const a = el("span"); const ia = el("i"); ia.style.background = "var(--red)"; a.append(ia, "já leu"); const b2 = el("span"); const ib = el("i"); ib.style.boxShadow = "inset 0 0 0 1.5px var(--green)"; b2.append(ib, "quer ler"); lg.append(a, b2);
-  if (!sel.size) { host.append(shelfBlock(null, cat, "Carregando…")); return; }
+  if (!sel.size) { host.append(shelfBlock(null, cat.filter(e => !e.obv), "Carregando…")); return; }
   const names = [...sel], who = joinNames(names), plural = names.length > 1;
   host.append(shelfBlock(who + (plural ? " querem ler" : " quer ler"), cat.filter(e => names.some(n => e.want.has(n))), "Nenhum livro na lista ainda."));
   host.append(shelfBlock(who + (plural ? " já leram" : " já leu"), cat.filter(e => names.some(n => e.read.has(n))), "Nenhum livro marcado ainda."));
