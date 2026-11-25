@@ -188,5 +188,45 @@
   "cover": "capas/tudo-e-rio.jpg",
   "amazon": "https://www.amazon.com.br/s?k=Tudo+%C3%A9+rio+Carla+Madeira",
   "ml": "https://lista.mercadolivre.com.br/tudo-e-rio-carla-madeira"
+ },
+ {
+  "kind": "loved",
+  "title": "Como tigres na neve",
+  "author": "Juhea Kim",
+  "year": "2021",
+  "name": "Paula",
+  "cover": "capas/como-tigres-na-neve.jpg",
+  "amazon": "https://www.amazon.com.br/s?k=Como+tigres+na+neve+Juhea+Kim",
+  "ml": "https://lista.mercadolivre.com.br/como-tigres-na-neve-juhea-kim"
+ },
+ {
+  "kind": "loved",
+  "title": "A cabeça do santo",
+  "author": "Socorro Acioli",
+  "year": "2014",
+  "name": "Paula",
+  "cover": "capas/a-cabeca-do-santo.jpg",
+  "amazon": "https://www.amazon.com.br/s?k=A+cabe%C3%A7a+do+santo+Socorro+Acioli",
+  "ml": "https://lista.mercadolivre.com.br/a-cabeca-do-santo-socorro-acioli"
+ },
+ {
+  "kind": "loved",
+  "title": "Pachinko",
+  "author": "Min Jin Lee",
+  "year": "2017",
+  "name": "Paula",
+  "cover": "capas/pachinko.jpg",
+  "amazon": "https://www.amazon.com.br/s?k=Pachinko+Min+Jin+Lee",
+  "ml": "https://lista.mercadolivre.com.br/pachinko-min-jin-lee"
+ },
+ {
+  "kind": "loved",
+  "title": "Água fresca para as flores",
+  "author": "Valérie Perrin",
+  "year": "2018",
+  "name": "Paula",
+  "cover": "capas/agua-fresca-para-as-flores.jpg",
+  "amazon": "https://www.amazon.com.br/s?k=%C3%81gua+fresca+para+as+flores+Val%C3%A9rie+Perrin",
+  "ml": "https://lista.mercadolivre.com.br/agua-fresca-para-as-flores-valerie-perrin"
  }
 ]
