@@ -546,6 +546,7 @@ function catalog(){
   OBV.forEach(b => { const id = bookId(b); if (!map.has(id)) map.set(id, { id, b, read: new Set(), want: new Set(), obv: true }); });
   const bm = baseMarks && (baseMarks.read || baseMarks.want) ? baseMarks : { read: baseMarks || {} };
   for (const k of ["read", "want"]) for (const [id, names] of Object.entries(bm[k] || {})) { const e = map.get(id); if (e && Array.isArray(names)) names.forEach(n => e[k].add(n)); }
+  for (const [id, names] of Object.entries(bm.none || {})) { const e = map.get(id); if (e && Array.isArray(names)) names.forEach(n => { e.read.delete(n); e.want.delete(n); }); }
   for (const [id, who] of Object.entries(sheetMarks || {})) { const e = map.get(id); if (!e) continue; for (const [n, v] of Object.entries(who)) { e.read.delete(n); e.want.delete(n); if (v === "read") e.read.add(n); if (v === "want") e.want.add(n); } }
   for (const e of map.values()) e.want.forEach(n => { if (e.read.has(n)) e.want.delete(n); });
   if (me) for (const [id, v] of Object.entries(mine)) { const e = map.get(id); if (!e) continue; e.read.delete(me); e.want.delete(me); if (v === "read") e.read.add(me); if (v === "want") e.want.add(me); }

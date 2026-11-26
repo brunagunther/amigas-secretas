@@ -250,5 +250,82 @@
   "cover": "capas/ter-ou-nao-ter-filhos.jpg",
   "amazon": "https://www.amazon.com.br/s?k=Ter+ou+n%C3%A3o+ter+filhos+Ruth+Manus",
   "ml": "https://lista.mercadolivre.com.br/ter-ou-nao-ter-filhos-ruth-manus"
+ },
+ {
+  "kind": "want",
+  "title": "Problems",
+  "typed": "Problems",
+  "author": "Jade Sharma",
+  "year": "2016",
+  "name": "Maria Fernanda",
+  "cover": "capas/problems.jpg",
+  "amazon": "https://www.amazon.com.br/s?k=Problems+Jade+Sharma",
+  "ml": "https://lista.mercadolivre.com.br/problems-jade-sharma"
+ },
+ {
+  "kind": "want",
+  "title": "Splinters",
+  "typed": "Splinters",
+  "author": "Leslie Jamison",
+  "year": "2024",
+  "name": "Maria Fernanda",
+  "cover": "capas/splinters.jpg",
+  "amazon": "https://www.amazon.com.br/s?k=Splinters+Leslie+Jamison",
+  "ml": "https://lista.mercadolivre.com.br/splinters-leslie-jamison"
+ },
+ {
+  "kind": "loved",
+  "title": "You'll Never Eat Lunch in This Town Again",
+  "typed": "You”ll never eat lunch in this town again",
+  "author": "Julia Phillips",
+  "year": "1991",
+  "name": "Maria Fernanda",
+  "cover": "capas/youll-never-eat-lunch.jpg",
+  "amazon": "https://www.amazon.com.br/s?k=You%27ll+Never+Eat+Lunch+in+This+Town+Again+Julia+Phillips",
+  "ml": "https://lista.mercadolivre.com.br/you-ll-never-eat-lunch-in-this-town-again-julia-phillips"
+ },
+ {
+  "kind": "loved",
+  "title": "La casa de los espíritus",
+  "typed": "La Casa de los espiritus",
+  "author": "Isabel Allende",
+  "year": "1982",
+  "name": "Maria Fernanda",
+  "cover": "capas/la-casa-de-los-espiritus.jpg",
+  "amazon": "https://www.amazon.com.br/s?k=La+casa+de+los+esp%C3%ADritus+Isabel+Allende",
+  "ml": "https://lista.mercadolivre.com.br/la-casa-de-los-espiritus-isabel-allende"
+ },
+ {
+  "kind": "want",
+  "title": "Hija de la fortuna",
+  "typed": "Hija de la fortuna",
+  "author": "Isabel Allende",
+  "year": "1999",
+  "name": "Maria Fernanda",
+  "cover": "capas/hija-de-la-fortuna.jpg",
+  "amazon": "https://www.amazon.com.br/s?k=Hija+de+la+fortuna+Isabel+Allende",
+  "ml": "https://lista.mercadolivre.com.br/hija-de-la-fortuna-isabel-allende"
+ },
+ {
+  "kind": "want",
+  "title": "De amor y de sombra",
+  "typed": "De amor y de sombra",
+  "author": "Isabel Allende",
+  "year": "1984",
+  "name": "Maria Fernanda",
+  "cover": "capas/de-amor-y-de-sombra.jpg",
+  "amazon": "https://www.amazon.com.br/s?k=De+amor+y+de+sombra+Isabel+Allende",
+  "ml": "https://lista.mercadolivre.com.br/de-amor-y-de-sombra-isabel-allende"
+ },
+ {
+  "kind": "loved",
+  "title": "A filha perdida",
+  "typed": "A filha perdida",
+  "author": "Elena Ferrante",
+  "year": "2006",
+  "name": "Maria Fernanda",
+  "cover": "capas/a-filha-perdida.jpg",
+  "amazon": "https://www.amazon.com.br/s?k=A+filha+perdida+Elena+Ferrante",
+  "ml": "https://lista.mercadolivre.com.br/a-filha-perdida-elena-ferrante"
  }
 ]
