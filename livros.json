@@ -327,5 +327,135 @@
   "cover": "capas/a-filha-perdida.jpg",
   "amazon": "https://www.amazon.com.br/s?k=A+filha+perdida+Elena+Ferrante",
   "ml": "https://lista.mercadolivre.com.br/a-filha-perdida-elena-ferrante"
+ },
+ {
+  "kind": "loved",
+  "title": "Bom dia, inverno",
+  "typed": "Bom dia, Inverno",
+  "author": "Tamara Klink",
+  "name": "Ve",
+  "cover": "capas/bom-dia-inverno.jpg",
+  "amazon": "https://www.amazon.com.br/s?k=Bom+dia%2C+inverno+Tamara+Klink",
+  "ml": "https://lista.mercadolivre.com.br/bom-dia-inverno-tamara-klink"
+ },
+ {
+  "kind": "loved",
+  "title": "Mulher, roupa, trabalho",
+  "typed": "Mulher, Roupa e Trabalho",
+  "author": "Mayra Cotta e Thais Farage",
+  "name": "Ve",
+  "cover": "capas/mulher-roupa-e-trabalho.jpg",
+  "amazon": "https://www.amazon.com.br/s?k=Mulher%2C+roupa%2C+trabalho+Mayra+Cotta+e+Thais+Farage",
+  "ml": "https://lista.mercadolivre.com.br/mulher-roupa-trabalho-mayra-cotta-e-thais-farage"
+ },
+ {
+  "kind": "loved",
+  "title": "Belo mundo, onde você está",
+  "typed": "Belo mundo onde você está",
+  "author": "Sally Rooney",
+  "name": "Ve",
+  "cover": "capas/belo-mundo-onde-voce-esta.jpg",
+  "amazon": "https://www.amazon.com.br/s?k=Belo+mundo%2C+onde+voc%C3%AA+est%C3%A1+Sally+Rooney",
+  "ml": "https://lista.mercadolivre.com.br/belo-mundo-onde-voce-esta-sally-rooney"
+ },
+ {
+  "kind": "loved",
+  "title": "Copo vazio",
+  "typed": "Copo Vazio",
+  "author": "Natalia Timerman",
+  "name": "Ve",
+  "cover": "capas/copo-vazio.jpg",
+  "amazon": "https://www.amazon.com.br/s?k=Copo+vazio+Natalia+Timerman",
+  "ml": "https://lista.mercadolivre.com.br/copo-vazio-natalia-timerman"
+ },
+ {
+  "kind": "loved",
+  "title": "Meu corpo minha casa",
+  "typed": "Meu corpo minha casa",
+  "author": "Rupi Kaur",
+  "name": "Ve",
+  "cover": "capas/meu-corpo-minha-casa.jpg",
+  "amazon": "https://www.amazon.com.br/s?k=Meu+corpo+minha+casa+Rupi+Kaur",
+  "ml": "https://lista.mercadolivre.com.br/meu-corpo-minha-casa-rupi-kaur"
+ },
+ {
+  "kind": "loved",
+  "title": "As coisas que perdemos no fogo",
+  "typed": "As coisas que perdemos no fogo",
+  "author": "Mariana Enriquez",
+  "name": "Ve",
+  "cover": "capas/as-coisas-que-perdemos-no-fogo.jpg",
+  "amazon": "https://www.amazon.com.br/s?k=As+coisas+que+perdemos+no+fogo+Mariana+Enriquez",
+  "ml": "https://lista.mercadolivre.com.br/as-coisas-que-perdemos-no-fogo-mariana-enriquez"
+ },
+ {
+  "kind": "loved",
+  "title": "A cachorra",
+  "typed": "A cachorra",
+  "author": "Pilar Quintana",
+  "name": "Ve",
+  "cover": "capas/a-cachorra.jpg",
+  "amazon": "https://www.amazon.com.br/s?k=A+cachorra+Pilar+Quintana",
+  "ml": "https://lista.mercadolivre.com.br/a-cachorra-pilar-quintana"
+ },
+ {
+  "kind": "loved",
+  "title": "Eu, Tituba: bruxa negra de Salem",
+  "typed": "Eu, tituba: bruxa negra de salem",
+  "author": "Maryse Condé",
+  "name": "Ve",
+  "cover": "capas/eu-tituba.jpg",
+  "amazon": "https://www.amazon.com.br/s?k=Eu%2C+Tituba%3A+bruxa+negra+de+Salem+Maryse+Cond%C3%A9",
+  "ml": "https://lista.mercadolivre.com.br/eu-tituba-bruxa-negra-de-salem-maryse-conde"
+ },
+ {
+  "kind": "loved",
+  "title": "Dias de abandono",
+  "typed": "Dias de abandono",
+  "author": "Elena Ferrante",
+  "name": "Ve",
+  "cover": "capas/dias-de-abandono.jpg",
+  "amazon": "https://www.amazon.com.br/s?k=Dias+de+abandono+Elena+Ferrante",
+  "ml": "https://lista.mercadolivre.com.br/dias-de-abandono-elena-ferrante"
+ },
+ {
+  "kind": "loved",
+  "title": "Talvez você deva conversar com alguém",
+  "typed": "Talvez você deva conversar com alguém",
+  "author": "Lori Gottlieb",
+  "name": "Ve",
+  "cover": "capas/talvez-voce-deva-conversar-com-alguem.jpg",
+  "amazon": "https://www.amazon.com.br/s?k=Talvez+voc%C3%AA+deva+conversar+com+algu%C3%A9m+Lori+Gottlieb",
+  "ml": "https://lista.mercadolivre.com.br/talvez-voce-deva-conversar-com-alguem-lori-gottlieb"
+ },
+ {
+  "kind": "loved",
+  "title": "A trança",
+  "typed": "A trança",
+  "author": "Laetitia Colombani",
+  "name": "Ve",
+  "cover": "capas/a-tranca.jpg",
+  "amazon": "https://www.amazon.com.br/s?k=A+tran%C3%A7a+Laetitia+Colombani",
+  "ml": "https://lista.mercadolivre.com.br/a-tranca-laetitia-colombani"
+ },
+ {
+  "kind": "loved",
+  "title": "Meu ano de descanso e relaxamento",
+  "typed": "Meu ano de descanso e relaxamento",
+  "author": "Ottessa Moshfegh",
+  "name": "Ve",
+  "cover": "capas/meu-ano-de-descanso-e-relaxamento.jpg",
+  "amazon": "https://www.amazon.com.br/s?k=Meu+ano+de+descanso+e+relaxamento+Ottessa+Moshfegh",
+  "ml": "https://lista.mercadolivre.com.br/meu-ano-de-descanso-e-relaxamento-ottessa-moshfegh"
+ },
+ {
+  "kind": "loved",
+  "title": "Cidade das garotas",
+  "typed": "Cidade das garotas",
+  "author": "Elizabeth Gilbert",
+  "name": "Ve",
+  "cover": "capas/cidade-das-garotas.jpg",
+  "amazon": "https://www.amazon.com.br/s?k=Cidade+das+garotas+Elizabeth+Gilbert",
+  "ml": "https://lista.mercadolivre.com.br/cidade-das-garotas-elizabeth-gilbert"
  }
 ]
